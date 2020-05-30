@@ -1,9 +1,10 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Image } from 'react-bootstrap'
 
 const Point = (props) => {
+    const png = require('./1.png') 
     return (
-    <Button size="lg">{props.point}</Button>
+        <Image src={png} />
     )
 }
 

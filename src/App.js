@@ -3,6 +3,7 @@ import './App.css';
 import ButtonArea from './ButtonArea.js'
 import Contents from './Contents.js'
 import Hand from './Hand.js'
+import Point from './Point.js'
 
 const App = () => {
   const players = [
@@ -14,15 +15,15 @@ const App = () => {
   ]
   return (
     <div className="App">
-      <Contents title='フィールド'>
+      <Contents title='プレイヤー'>
         {players.map(player => {
           return (
             <Hand text={player.name} />
           )
         })}
       </Contents>
-      <Contents title='得点カード'>
-
+      <Contents title='得点'>
+        <Point point='15' />
       </Contents>
       <Contents title='手札'>
         <ButtonArea />

@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 
 const Hand = (props) => {
     return (
-        <Button>
+        <Button variant={props.color}>
             {props.text}
         </Button>
     )

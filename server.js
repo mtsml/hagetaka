@@ -1,12 +1,20 @@
 var express = require('express');
+var path = require('path');
 var socket = require('socket.io');
 
 var app = express();
 let cnt = 1
 
-server = app.listen(8080, function(){
-  console.log('server is running on port 8080')
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
+server = app.listen(8090, function(){
+  console.log('server is running on port 8090')
+});
+
 
 io = socket(server);
 

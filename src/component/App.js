@@ -3,6 +3,8 @@ import io from "socket.io-client";
 import { Row } from 'react-bootstrap'
 import ButtonArea from './ButtonArea.js'
 import Contents from './Contents.js'
+import InputModal from './InputModal.js'
+import MessageToast from './MessageToast.js'
 import Player from './Player.js'
 import Point from './Point.js'
 import './../css/App.css';
@@ -10,21 +12,22 @@ import './../css/App.css';
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.socket = io('localhost:8080');
+    this.socket = io('localhost:8090');
 
     this.state = {
-      point: 1,
-      players: [
-        {name: "hoge", hand: 1, point: 2, color: 'primary'},
-        {name: "fuga", hand: 2, point: 4, color: 'secondary'},
-        {name: "foo", hand: 3, point: 6, color: 'success'},
-        {name: "bar", hand: 4, point: 8, color: 'danger'},
-        {name: "baz", hand: 5, point: 10, color: 'warning'}
-      ]
+      name: null,
+      point: 0,
+      players: [],
+      toast: []
     }
   }
 
   componentDidMount() {
+    this.socket.on('INIT', (data) => {
+      console.log('INIT')
+      this.notifyAddPlayer(data.name)
+      this.setState({players: data.players})
+    })
     this.socket.on('RECEIVE_MESSAGE', function(data){ 
       console.log('receive')
     })
@@ -39,6 +42,17 @@ class App extends React.Component {
     console.log('send message')
     this.socket.emit('SEND_MESSAGE', {
     });
+  }
+
+  inputName(name) {
+    this.setState({name: name})
+    this.socket.emit('INIT', name)
+  }
+
+  notifyAddPlayer(name) {
+    const toast = this.state.toast
+    toast.push(name)
+    this.setState({toast: toast})
   }
 
   render() {
@@ -64,6 +78,10 @@ class App extends React.Component {
         <Contents title='手札'>
           <ButtonArea onClick={(msg) => this.sendMessage(msg)}/>
         </Contents>
+        <InputModal onClick={(name) => this.inputName(name)}/>
+        {this.state.toast&&this.state.toast.map(name => {
+          return <MessageToast name={name} show={true} />
+        })}
       </div>
     );
   }

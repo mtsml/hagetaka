@@ -4,13 +4,21 @@ import { Button, FormControl, Modal } from 'react-bootstrap'
 const InputModal = (props) => {
     const [show, setShow] = useState(true)
     const [name, setName] = useState(null)
+    const [message, setMessage] = useState(null)
 
     const handleClose = () => setShow(false)
-    const submit = () => {
-        props.onClick(name)
-        handleClose()
-    }
     const onChange = (e) => setName(e.target.value)
+
+    const submit = ()  => {
+        props.socket.emit('INIT', name)
+    }    
+    
+    props.socket.on('INIT', (data) => {
+        handleClose()        
+    })
+    props.socket.on('INIT_FAILED', (data) => {
+        setMessage(data.message)
+    })
 
     return (
         <Modal show={show}>
@@ -20,6 +28,7 @@ const InputModal = (props) => {
 
             <Modal.Body>
                 <FormControl area-label="名前" onChange={onChange} />
+                {message&&<p>{message}</p>}
             </Modal.Body>
 
             <Modal.Footer>

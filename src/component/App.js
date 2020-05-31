@@ -26,13 +26,14 @@ class App extends React.Component {
     this.socket.on('INIT', (data) => {
       console.log('INIT')
       this.notifyAddPlayer(data.name)
+      this.setState({players: data.players, name: data.name})
+    })
+    this.socket.on('UPDATE_PLAYER', (data) => { 
+      console.log('UPDATE_PLAYER')
       this.setState({players: data.players})
     })
-    this.socket.on('RECEIVE_MESSAGE', function(data){ 
-      console.log('receive')
-    })
     this.socket.on('UPDATE_COUNT', (data) => { 
-      console.log('update')
+      console.log('UPDATE_COUNT')
       console.log(data)
       this.setState({point: data})
     })
@@ -44,17 +45,6 @@ class App extends React.Component {
     } else {
       return "localhost:8090" 
     }
-  }
-
-  sendMessage() {
-    console.log('send message')
-    this.socket.emit('SEND_MESSAGE', {
-    });
-  }
-
-  inputName(name) {
-    this.setState({name: name})
-    this.socket.emit('INIT', name)
   }
 
   notifyAddPlayer(name) {
@@ -84,9 +74,9 @@ class App extends React.Component {
           <Point point={this.state.point} socket={this.socket}/>
         </Contents>
         <Contents title='手札'>
-          <ButtonArea onClick={(msg) => this.sendMessage(msg)}/>
+          <ButtonArea socket={this.socket} />
         </Contents>
-        <InputModal onClick={(name) => this.inputName(name)}/>
+        <InputModal socket={this.socket} onClick={(name) => this.inputName(name)}/>
         {this.state.toast&&this.state.toast.map(name => {
           return <MessageToast name={name} show={true} />
         })}

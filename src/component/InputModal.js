@@ -2,26 +2,21 @@ import React, { useState } from 'react'
 import { Button, FormControl, Modal } from 'react-bootstrap'
 
 const InputModal = (props) => {
-    const [show, setShow] = useState(true)
     const [name, setName] = useState(null)
     const [message, setMessage] = useState(null)
 
-    const handleClose = () => setShow(false)
     const onChange = (e) => setName(e.target.value)
 
     const submit = ()  => {
         props.socket.emit('INIT', name)
     }    
     
-    props.socket.on('INIT', (data) => {
-        handleClose()        
-    })
     props.socket.on('INIT_FAILED', (data) => {
         setMessage(data.message)
     })
 
     return (
-        <Modal show={show}>
+        <Modal show={true}>
             <Modal.Header>
                 <Modal.Title>名前を入力してください</Modal.Title>
             </Modal.Header>

@@ -1,9 +1,7 @@
 import React from 'react';
-import io from "socket.io-client";
 import { Row } from 'react-bootstrap'
 import ButtonArea from './ButtonArea.js'
 import Contents from './Contents.js'
-import InputModal from './InputModal.js'
 import MessageToast from './MessageToast.js'
 import Player from './Player.js'
 import Point from './Point.js'
@@ -12,12 +10,12 @@ import './../css/App.css';
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.socket = io(this.getHost());
+    this.socket = props.socket
 
     this.state = {
       name: null,
       point: 0,
-      players: [],
+      players: props.players,
       toast: []
     }
   }
@@ -39,14 +37,6 @@ class App extends React.Component {
     })
   }
 
-  getHost() {
-    if (process.env.NODE_ENV === 'production') {
-      return "18.181.41.155:8090"
-    } else {
-      return "localhost:8090" 
-    }
-  }
-
   notifyAddPlayer(name) {
     const toast = this.state.toast
     toast.push(name)
@@ -58,9 +48,10 @@ class App extends React.Component {
       <div className="App">
         <Contents title='プレイヤー'>
           <Row>
-            {this.state&&this.state.players.map(player => {
+            {this.state&&this.state.players.map((player,idx) => {
               return (
                 <Player 
+                  key={idx}
                   name={player.name} 
                   point={player.point} 
                   hand={player.hand}
@@ -76,9 +67,8 @@ class App extends React.Component {
         <Contents title='手札'>
           <ButtonArea socket={this.socket} />
         </Contents>
-        <InputModal socket={this.socket} onClick={(name) => this.inputName(name)}/>
-        {this.state.toast&&this.state.toast.map(name => {
-          return <MessageToast name={name} show={true} />
+        {this.state.toast&&this.state.toast.map((name,idx) => {
+          return <MessageToast key={idx} name={name} show={true} />
         })}
       </div>
     );

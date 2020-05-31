@@ -12,7 +12,7 @@ import './../css/App.css';
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.socket = io('localhost:8090');
+    this.socket = io(this.getHost());
 
     this.state = {
       name: null,
@@ -36,6 +36,14 @@ class App extends React.Component {
       console.log(data)
       this.setState({point: data})
     })
+  }
+
+  getHost() {
+    if (process.env.NODE_ENV === 'production') {
+      return "18.181.41.155:8090"
+    } else {
+      return "localhost:8090" 
+    }
   }
 
   sendMessage() {

@@ -9,7 +9,7 @@ const MessageToast = (props) => {
             <strong className="mr-auto">Information</strong>
             <small>いま</small>
             </Toast.Header>
-            <Toast.Body>{props.name}さんが入室しました。</Toast.Body>
+            <Toast.Body>{props.message}</Toast.Body>
         </Toast>
     )
 }

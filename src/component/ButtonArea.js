@@ -1,10 +1,19 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap'
+import { Button, Col, Row } from 'react-bootstrap'
 import Hand from './Hand.js'
 
 const ButtonArea = (props) => {
     const sendHand = (hand) => {
         props.socket.emit('SEND_HAND', hand)
+    }
+    const gameStart = () => {
+        props.socket.emit('GAME_START')
+    }
+    const gameEnd = () => {
+        props.socket.emit('GAME_END')
+    }
+    const logout = () => {
+        props.socket.emit('LOGOUT', props.name)
     }
 
     return (
@@ -28,6 +37,21 @@ const ButtonArea = (props) => {
                 </Row>
                 )
             })}
+            <Row>
+                <Col>
+                  <Button onClick={() => logout()}>退出</Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Button onClick={() => gameStart()}>ゲーム開始</Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Button onClick={() => gameEnd()}>ゲーム終了</Button>
+                </Col>
+            </Row>
         </React.Fragment>
     )
 }

@@ -13,18 +13,20 @@ class App extends React.Component {
     this.socket = props.socket
 
     this.state = {
-      name: null,
+      name: props.name,
       point: 0,
       players: props.players,
-      toast: []
+      toast: [],
+      onGame: false
     }
   }
 
   componentDidMount() {
     this.socket.on('INIT', (data) => {
       console.log('INIT')
-      this.notifyAddPlayer(data.name)
-      this.setState({players: data.players, name: data.name})
+      console.log(data)
+      this.notify(data.message)
+      this.setState({players: data.players})
     })
     this.socket.on('UPDATE_PLAYER', (data) => { 
       console.log('UPDATE_PLAYER')
@@ -32,14 +34,18 @@ class App extends React.Component {
     })
     this.socket.on('UPDATE_COUNT', (data) => { 
       console.log('UPDATE_COUNT')
-      console.log(data)
       this.setState({point: data})
+    })
+    this.socket.on('GAME_START', (data) => { 
+      console.log('GAME_START')
+      this.notify(data.message)
+      this.setState({onGame: true})
     })
   }
 
-  notifyAddPlayer(name) {
+  notify(message) {
     const toast = this.state.toast
-    toast.push(name)
+    toast.push(message)
     this.setState({toast: toast})
   }
 
@@ -65,10 +71,10 @@ class App extends React.Component {
           <Point point={this.state.point} socket={this.socket}/>
         </Contents>
         <Contents title='手札'>
-          <ButtonArea socket={this.socket} />
+          <ButtonArea socket={this.socket} name={this.state.name} />
         </Contents>
-        {this.state.toast&&this.state.toast.map((name,idx) => {
-          return <MessageToast key={idx} name={name} show={true} />
+        {this.state.toast&&this.state.toast.map((message,idx) => {
+          return <MessageToast key={idx} message={message} show={true} />
         })}
       </div>
     );

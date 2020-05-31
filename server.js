@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
   socket.on('INIT', function(name){
     console.log('INIT')
     if (addPlayer(socket.id, name)) {
+      io.to(socket.id).emit('LOGIN', {players})
       io.emit('INIT', {players,name})
     } else {
       io.to(socket.id).emit('INIT_FAILED', {message: '定員オーバーです'})

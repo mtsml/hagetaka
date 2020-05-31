@@ -11,11 +11,11 @@ const ButtonArea = (props) => {
         <React.Fragment>
             {[1,2,3].map(i => {
                 return (
-                <Row className="justify-content-md-center">
+                <Row key={i} className="justify-content-md-center">
                     {[1,2,3,4,5].map(j => {
                         let val = (i-1)*5+j
                         return (
-                            <Col sm={1}>
+                            <Col key={val} sm={1}>
                                 <Hand 
                                     text={val} 
                                     color="primary" 

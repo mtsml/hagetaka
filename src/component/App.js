@@ -24,7 +24,6 @@ class App extends React.Component {
   componentDidMount() {
     this.socket.on('INIT', (data) => {
       console.log('INIT')
-      console.log(data)
       this.notify(data.message)
       this.setState({players: data.players})
     })
@@ -41,6 +40,13 @@ class App extends React.Component {
       this.notify(data.message)
       this.setState({onGame: true})
     })
+  }
+
+  componentWillUnmount() {
+    this.socket.off('INIT')
+    this.socket.off('UPDATE_PLAYER')
+    this.socket.off('UPDATE_COUNT')
+    this.socket.off('GAME_START')
   }
 
   notify(message) {

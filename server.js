@@ -119,6 +119,6 @@ io.on('connection', (socket) => {
     console.log('LOGOUT')
     logout(socket.id)
     io.to(socket.id).emit('LOGOUT')
-    io.emit('INIT', {players, message: `${name}さんが退出しました。`})
+    socket.broadcast.emit('INIT', {players, message: `${name}さんが退出しました。`})
   })
 });

@@ -18,28 +18,28 @@ const ButtonArea = (props) => {
 
     return (
         <React.Fragment>
-            {[1,2,3].map(i => {
+            {[1, 2, 3].map(i => {
                 return (
-                <Row key={i} className="justify-content-md-center">
-                    {[1,2,3,4,5].map(j => {
-                        let val = (i-1)*5+j
-                        return (
-                            <Col key={val} sm={1}>
-                                <Hand 
-                                    text={val} 
-                                    color="primary" 
-                                    onClick={() => sendHand(val)}
-                                />
-                            </Col>
-                        )
-                    })
-                    }
-                </Row>
+                    <Row key={i} className="justify-content-md-center">
+                        {[1, 2, 3, 4, 5].map(j => {
+                            let val = (i - 1) * 5 + j
+                            return (
+                                <Col key={val} sm={1}>
+                                    <Hand
+                                        text={val}
+                                        color="primary"
+                                        onClick={() => sendHand(val)}
+                                    />
+                                </Col>
+                            )
+                        })
+                        }
+                    </Row>
                 )
             })}
             <Row>
                 <Col>
-                  <Button onClick={() => logout()}>退出</Button>
+                    <Button onClick={() => logout()}>退出</Button>
                 </Col>
             </Row>
             <Row>

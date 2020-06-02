@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, FormControl, Modal } from 'react-bootstrap'
+import { Button, Input, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact'
 
 const InputModal = (props) => {
     const [name, setName] = useState(null)
@@ -16,20 +16,20 @@ const InputModal = (props) => {
     })
 
     return (
-        <Modal show={true}>
-            <Modal.Header>
-                <Modal.Title>名前を入力してください</Modal.Title>
-            </Modal.Header>
+        <MDBModal isOpen={true}>
+            <MDBModalHeader>
+                名前を入力してください
+            </MDBModalHeader>
 
-            <Modal.Body>
-                <FormControl area-label="名前" onChange={onChange} />
+            <MDBModalBody>
+                <Input area-label="名前" onChange={onChange} />
                 {message&&<p>{message}</p>}
-            </Modal.Body>
+            </MDBModalBody>
 
-            <Modal.Footer>
-                <Button variant="primary" onClick={submit}>確定</Button>
-            </Modal.Footer>
-        </Modal>
+            <MDBModalFooter>
+                <Button color="primary" onClick={submit}>確定</Button>
+            </MDBModalFooter>
+        </MDBModal>
     )    
 }
 

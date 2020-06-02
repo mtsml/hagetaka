@@ -1,6 +1,6 @@
 import React from 'react'
 // import { Image } from 'react-bootstrap'
-import { Button } from 'react-bootstrap'
+import { Button } from 'mdbreact'
 
 const Point = (props) => {
     const socket = props.socket
@@ -12,7 +12,7 @@ const Point = (props) => {
 
     return (
         // <Image src={png} />
-    <Button onClick={() => countUp()}>{props.point}</Button>
+    <Button color='primary' onClick={() => countUp()}>{props.point}</Button>
     )
 }
 

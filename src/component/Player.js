@@ -1,17 +1,13 @@
 import React from 'react'
-import { Card, Col } from 'react-bootstrap'
+import { MDBListGroupItem } from 'mdbreact'
 import Hand from './Hand.js'
 
 const Player = (props) => {
     return (
-        <Col>
-            <Card border={props.color}>
-                <Card.Header>{props.name}さん {props.point}ポイント</Card.Header>
-                <Card.Body>
-                    <Hand text={props.hand} color={props.color}/>
-                </Card.Body>
-            </Card>
-        </Col>
+        <MDBListGroupItem color={props.color}>
+            {props.name}さん {props.point}ポイント                
+            <Hand text={props.hand} color={props.color}/>
+        </MDBListGroupItem>
     )
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from 'react-bootstrap'
+import { MDBCardHeader, MDBCardFooter, MDBListGroup } from 'mdbreact' 
 import ButtonArea from './ButtonArea.js'
 import Contents from './Contents.js'
 import MessageToast from './MessageToast.js'
@@ -58,8 +58,15 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
+                <MDBCardHeader>
+                    <Contents>
+                        1ターン目　得点カード
+                        <Point point={this.state.point} socket={this.socket} />
+                    </Contents>
+                </MDBCardHeader>
+
                 <Contents title='プレイヤー'>
-                    <Row>
+                    <MDBListGroup>
                         {this.state && this.state.players.map((player, idx) => {
                             return (
                                 <Player
@@ -71,17 +78,17 @@ class App extends React.Component {
                                 />
                             )
                         })}
-                    </Row>
+                    </MDBListGroup>
                 </Contents>
-                <Contents title='得点'>
-                    <Point point={this.state.point} socket={this.socket} />
-                </Contents>
-                <Contents title='手札'>
-                    <ButtonArea socket={this.socket} name={this.state.name} />
-                </Contents>
-                {this.state.toast && this.state.toast.map((message, idx) => {
-                    return <MessageToast key={idx} message={message} show={true} />
-                })}
+
+                <MDBCardFooter>
+                    <Contents title='手札'>
+                        <ButtonArea socket={this.socket} name={this.state.name} />
+                    </Contents>
+                    {this.state.toast && this.state.toast.map((message, idx) => {
+                        return <MessageToast key={idx} message={message} show={true} />
+                    })}
+                </MDBCardFooter>
             </div>
         );
     }

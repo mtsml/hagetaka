@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button } from 'react-bootstrap'
+import { Button } from 'mdbreact'
 
 const Hand = (props) => {
     return (
-        <Button variant={props.color} onClick={props.onClick}>
+        <Button color={props.color} onClick={props.onClick}>
             {props.text}
         </Button>
     )

@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import { Toast } from 'react-bootstrap'
+import { MDBNotification } from 'mdbreact'
 
 const MessageToast = (props) => {
     const [show, setShow] = useState(props.show);
     return (
-        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
-            <Toast.Header>
-            <strong className="mr-auto">Information</strong>
-            <small>いま</small>
-            </Toast.Header>
-            <Toast.Body>{props.message}</Toast.Body>
-        </Toast>
+        <MDBNotification 
+            onClose={() => setShow(false)} 
+            show={show}  
+            autohide={3000}
+            message={props.message}
+        />
     )
 }
 

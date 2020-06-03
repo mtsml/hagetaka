@@ -3,7 +3,7 @@ const path = require('path');
 const socket = require('socket.io');
 
 const app = express();
-let cnt = 1
+let cnt = 0
 let players = []
 let colors = [
   {color: 'primary', use: false},
@@ -95,16 +95,11 @@ io.on('connection', (socket) => {
     io.emit('UPDATE_PLAYER', {players});
   })
 
-  socket.on('COUNT_UP', function(data){
-    console.log('COUNT_UP')
-    cnt++
-    io.emit('UPDATE_COUNT', cnt);
-  })
-
   socket.on('GAME_START', () => {
     console.log('GAME_START')
+    cnt++
     onGame = true
-    io.emit('GAME_START', {message: 'ゲームスタート！'})
+    io.emit('GAME_START', {title: `${cnt}ターン目`})
   })
 
   socket.on('GAME_END', () => {

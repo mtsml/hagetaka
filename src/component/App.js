@@ -1,10 +1,11 @@
 import React from 'react';
-import { MDBCardHeader, MDBCardFooter, MDBListGroup } from 'mdbreact' 
-import ButtonArea from './ButtonArea.js'
+import { MDBContainer, MDBCardHeader, MDBCardFooter, MDBListGroup } from 'mdbreact' 
+import Footer from './Footer'
 import Contents from './Contents.js'
 import MessageToast from './MessageToast.js'
 import Player from './Player.js'
 import Point from './Point.js'
+import MessageModal from './MessageModal'
 import './../css/App.css';
 
 class App extends React.Component {
@@ -17,7 +18,8 @@ class App extends React.Component {
             point: 0,
             players: props.players,
             toast: [],
-            onGame: false
+            onGame: false,
+            headerMessage: '待機中'
         }
     }
 
@@ -37,7 +39,7 @@ class App extends React.Component {
         })
         this.socket.on('GAME_START', (data) => {
             console.log('GAME_START')
-            this.notify(data.message)
+            this.setState({ headerMessage: data.title })
             this.setState({ onGame: true })
         })
     }
@@ -60,7 +62,7 @@ class App extends React.Component {
             <div className="App">
                 <MDBCardHeader>
                     <Contents>
-                        1ターン目　得点カード
+                        {this.state.headerMessage}　得点カード
                         <Point point={this.state.point} socket={this.socket} />
                     </Contents>
                 </MDBCardHeader>
@@ -81,14 +83,28 @@ class App extends React.Component {
                     </MDBListGroup>
                 </Contents>
 
-                <MDBCardFooter>
-                    <Contents title='手札'>
-                        <ButtonArea socket={this.socket} name={this.state.name} />
-                    </Contents>
+                <div className="fixed-bottom">
+                    <MDBCardFooter>
+                        <Contents title='手札'>
+                            <Footer socket={this.socket} name={this.state.name} />
+                        </Contents>
+                    </MDBCardFooter>
+                </div>
+                
+                <MessageModal socket={this.socket} />
+                <MDBContainer
+                    style={{
+                    width: "auto",
+                    position: "fixed",
+                    top: "10px",
+                    right: "10px",
+                    zIndex: 9999
+                    }}
+                >
                     {this.state.toast && this.state.toast.map((message, idx) => {
                         return <MessageToast key={idx} message={message} show={true} />
                     })}
-                </MDBCardFooter>
+                </MDBContainer>
             </div>
         );
     }

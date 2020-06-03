@@ -1,10 +1,11 @@
 import React from 'react'
-import { MDBListGroupItem } from 'mdbreact'
+import { MDBIcon, MDBListGroupItem } from 'mdbreact'
 import Hand from './Hand.js'
 
 const Player = (props) => {
     return (
-        <MDBListGroupItem color={props.color}>
+        <MDBListGroupItem fab color={props.color}>
+            <MDBIcon icon="user-circle" />
             {props.name}さん {props.point}ポイント                
             <Hand text={props.hand} color={props.color}/>
         </MDBListGroupItem>

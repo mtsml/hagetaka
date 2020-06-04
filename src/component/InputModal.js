@@ -11,6 +11,10 @@ const InputModal = (props) => {
         props.socket.emit('INIT', name)
     }    
     
+    const endGame = () => {
+        props.socket.emit('GAME_END')
+    }
+
     props.socket.on('INIT_FAILED', (data) => {
         setMessage(data.message)
     })
@@ -27,6 +31,7 @@ const InputModal = (props) => {
             </MDBModalBody>
 
             <MDBModalFooter>
+                <Button color="primary" onClick={endGame}>強制ゲーム終了</Button>
                 <Button color="primary" onClick={submit}>確定</Button>
             </MDBModalFooter>
         </MDBModal>

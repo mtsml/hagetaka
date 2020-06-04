@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Row, Col, Button, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact'
 import Hand from './Hand.js'
+import Point from './Point.js'
 
 const MessageModal = (props) => {
     const [title, setTitle] = useState('')
     const [hand, setHand] = useState(1)
     const [show, setShow] = useState(false)
+    const [point, setPoint] = useState(0)
     const sendHand = () => {
         setShow(false)
         props.socket.emit('SEND_HAND', hand)
@@ -14,12 +16,14 @@ const MessageModal = (props) => {
     props.socket.on('GAME_START', (data) => {
         setTitle(data.title)
         setShow(true)
+        setPoint(data.point)
     })
 
     return (
         <MDBModal isOpen={show}>
             <MDBModalHeader>
-                {title}
+                {title}　得点カード
+                <Point point={point} />
             </MDBModalHeader>
 
             <MDBModalBody>

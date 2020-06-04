@@ -39,8 +39,11 @@ class App extends React.Component {
         })
         this.socket.on('GAME_START', (data) => {
             console.log('GAME_START')
-            this.setState({ headerMessage: data.title })
-            this.setState({ onGame: true })
+            this.setState({ 
+                headerMessage: data.title,
+                onGame: true,
+                point: data.point
+            })
         })
     }
 
@@ -63,7 +66,7 @@ class App extends React.Component {
                 <MDBCardHeader>
                     <Contents>
                         {this.state.headerMessage}　得点カード
-                        <Point point={this.state.point} socket={this.socket} />
+                        <Point point={this.state.point} />
                     </Contents>
                 </MDBCardHeader>
 

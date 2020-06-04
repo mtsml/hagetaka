@@ -13,6 +13,7 @@ let colors = [
   {color: "danger", use: false},
   {color: "info", use: false}
 ]
+let point = []
 let onGame = false
 
 app.use(express.static(path.join(__dirname, 'build')));
@@ -74,6 +75,24 @@ const logout = (id) => {
   players = players.filter(player => player.id !== id)
 }
 
+const gameStart = () => {
+    if (cnt === 0) {
+        onGame = true
+        for (let i = -5; i <= 10; i++) {
+            if (i === 0) continue
+            point.push(i)
+        }
+    }
+    cnt++
+}
+
+const gameEnd = () => {
+    cnt = 0
+    onGame = false
+    players = []
+    colors = colors.map(color => ({...color, use: false}))
+}
+
 io = socket(server);
 
 io.on('connection', (socket) => {
@@ -97,16 +116,17 @@ io.on('connection', (socket) => {
 
   socket.on('GAME_START', () => {
     console.log('GAME_START')
-    cnt++
-    onGame = true
-    io.emit('GAME_START', {title: `${cnt}ターン目`})
+    if (cnt === 15) {
+        io.emit('GAME_END')
+    } else {
+        gameStart()
+        io.emit('GAME_START', {title: `${cnt}ターン目`, point: point.pop()})
+    }
   })
 
   socket.on('GAME_END', () => {
     console.log('GAME_END')
-    onGame = false
-    players = []
-    colors = colors.map(color => ({...color, use: false}))
+    gameEnd()
     io.emit('GAME_END')
   })
 

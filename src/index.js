@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import io from "socket.io-client";
-import './css/index.css';
+import { Provider } from './store/index'
 import Router from './component/Router.js';
-import { getHost } from './util/util'
+import './css/index.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
-const socket = io(getHost());
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Router socket={socket}/>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <Provider>
+        <Router />
+    </Provider>,
+    document.getElementById('root')
 );

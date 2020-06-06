@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Input, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact'
+import { Store } from '../store/index'
+import { login, endGame } from '../util/util'
 
-const InputModal = (props) => {
+
+const LoginModal = () => {
     const [name, setName] = useState(null)
     const [message, setMessage] = useState(null)
+    const {state} = useContext(Store)
 
     const onChange = (e) => setName(e.target.value)
 
-    const submit = ()  => {
-        props.socket.emit('INIT', name)
-    }    
-    
-    const endGame = () => {
-        props.socket.emit('GAME_END')
-    }
-
-    props.socket.on('INIT_FAILED', (data) => {
-        setMessage(data.message)
-    })
+    useEffect(() => {
+        state.socket.on('LOGIN_FAILED', (data) => {
+            setMessage(data.message)
+        })
+        return () => state.socket.off('LOGIN_FAILED')
+        },[]
+    )
 
     return (
         <MDBModal isOpen={true}>
@@ -31,11 +31,11 @@ const InputModal = (props) => {
             </MDBModalBody>
 
             <MDBModalFooter>
-                <Button color="primary" onClick={endGame}>強制ゲーム終了</Button>
-                <Button color="primary" onClick={submit}>確定</Button>
+                <Button color="primary" onClick={() => endGame(state)}>強制ゲーム終了</Button>
+                <Button color="primary" onClick={() => login(state, name)}>確定</Button>
             </MDBModalFooter>
         </MDBModal>
     )    
 }
 
-export default InputModal
+export default LoginModal

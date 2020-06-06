@@ -1,23 +1,31 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Row, Col, Button, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact'
 import Hand from './Hand.js'
 import Point from './Point.js'
+import { Store } from '../store/index'
+
 
 const MessageModal = (props) => {
     const [title, setTitle] = useState('')
     const [hand, setHand] = useState(1)
     const [show, setShow] = useState(false)
     const [point, setPoint] = useState(0)
+    const {state, dispatch} = useContext(Store)
+
     const sendHand = () => {
         setShow(false)
-        props.socket.emit('SEND_HAND', hand)
+        state.socket.emit('SEND_HAND', hand)
     }
 
-    props.socket.on('GAME_START', (data) => {
-        setTitle(data.title)
-        setShow(true)
-        setPoint(data.point)
-    })
+    useEffect(() => {
+        state.socket.on('GAME_START', (data) => {
+            setTitle(data.title)
+            setShow(true)
+            dispatch({ type: 'GAME_START', data })
+        })
+        return () => state.socket.off('GAME_START')
+        },[]
+    )
 
     return (
         <MDBModal isOpen={show}>

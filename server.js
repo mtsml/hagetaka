@@ -6,12 +6,12 @@ const app = express();
 let cnt = 0
 let players = []
 let colors = [
-  {color: 'primary', use: false},
-  {color: "secondary", use: false},
-  {color: "success", use: false},
-  {color: "warning", use: false},
-  {color: "danger", use: false},
-  {color: "info", use: false}
+    {color: 'primary', use: false},
+    {color: "secondary", use: false},
+    {color: "success", use: false},
+    {color: "warning", use: false},
+    {color: "danger", use: false},
+    {color: "info", use: false}
 ]
 let point = []
 let onGame = false
@@ -96,44 +96,46 @@ const gameEnd = () => {
 io = socket(server);
 
 io.on('connection', (socket) => {
-  socket.on('INIT', (name) => {
-    console.log('INIT')
-    if (onGame) {
-      io.to(socket.id).emit('INIT_FAILED', {message: 'ゲーム中です'})
-    } else if (addPlayer(socket.id, name)) {
-      io.to(socket.id).emit('LOGIN', {players, name})
-      io.emit('INIT', {players, message: `${name}さんが入室しました。`})
-    } else {
-      io.to(socket.id).emit('INIT_FAILED', {message: '定員オーバーです'})
-    }
-  })
+    socket.on('LOGIN', (name) => {
+        console.log('LOGIN')
+        if (onGame) {
+            io.to(socket.id).emit('LOGIN_FAILED', {message: 'ゲーム中です'})
+        } else if (addPlayer(socket.id, name)) {
+            io.to(socket.id).emit('LOGIN', {players, name})
+            io.emit('NOTIFY', {message: `${name}さんが入室しました`})
+            io.emit('UPDATE', {players})
+        } else {
+            io.to(socket.id).emit('LOGIN_FAILED', {message: '定員オーバーです'})
+        }
+    })
 
-  socket.on('SEND_HAND', function(hand){
-    console.log('SEND_HAND')
-    updatePlayer(socket.id, hand)
-    io.emit('UPDATE_PLAYER', {players});
-  })
+    socket.on('SEND_HAND', (hand) => {
+        console.log('SEND_HAND')
+        updatePlayer(socket.id, hand)
+        io.emit('UPDATE', {players});
+    })
 
-  socket.on('GAME_START', () => {
-    console.log('GAME_START')
-    if (cnt === 15) {
+    socket.on('GAME_START', () => {
+        console.log('GAME_START')
+        if (cnt === 15) {
+            io.emit('GAME_END')
+        } else {
+            gameStart()
+            io.emit('GAME_START', {title: `${cnt}ターン目`, point: point.pop()})
+        }
+    })
+
+    socket.on('GAME_END', () => {
+        console.log('GAME_END')
+        gameEnd()
         io.emit('GAME_END')
-    } else {
-        gameStart()
-        io.emit('GAME_START', {title: `${cnt}ターン目`, point: point.pop()})
-    }
-  })
+    })
 
-  socket.on('GAME_END', () => {
-    console.log('GAME_END')
-    gameEnd()
-    io.emit('GAME_END')
-  })
-
-  socket.on('LOGOUT', (name) => {
-    console.log('LOGOUT')
-    logout(socket.id)
-    io.to(socket.id).emit('LOGOUT')
-    socket.broadcast.emit('INIT', {players, message: `${name}さんが退出しました。`})
-  })
+    socket.on('LOGOUT', (name) => {
+        console.log('LOGOUT')
+        logout(socket.id)
+        io.to(socket.id).emit('LOGOUT')
+        socket.broadcast.emit('NOTIFY', {message: `${name}さんが退出しました`})
+        socket.broadcast.emit('UPDATE', {players})
+    })
 });

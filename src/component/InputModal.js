@@ -28,7 +28,7 @@ const InputModal = () => {
     )
 
     return (
-        <MDBModal isOpen={show} fullHeight position='bottom'>
+        <MDBModal isOpen={show}>
             <MDBModalHeader>
                 {title}　得点カード
                 <Point point={state.point} />

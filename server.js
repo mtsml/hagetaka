@@ -3,6 +3,8 @@ const path = require('path');
 const socket = require('socket.io');
 
 const app = express();
+const maxTurn = 15
+const maxPlayers = 6
 let cnt = 0
 let players = []
 let colors = [
@@ -21,45 +23,45 @@ let hands = []
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 server = app.listen(8090, function(){
-  console.log('server is running on port 8090')
+    console.log('server is running on port 8090')
 });
 
 const addPlayer = (id, name) => {
-  if (players.length >=6) {
-    return false
-  } else {
+    if (players.length >= maxPlayers) {
+        return false
+    } else {
     let _color = null
-     colors = colors.map(color => {
-       if (_color === null & !color.use) {
-         _color = color.color
-         return {...color, use: true}
-       } else {
-         return color
-       }
-     })
+    colors = colors.map(color => {
+    if (_color === null & !color.use) {
+        _color = color.color
+        return {...color, use: true}
+    } else {
+        return color
+    }
+    })
     players.push({
-      id: id,
-      name: name,
-      hand: 0,
-      point: 0,
-      color: _color
+        id: id,
+        name: name,
+        hand: 0,
+        point: 0,
+        color: _color
     })
     return true
   }
 }
 
 const updatePlayer = (id, hand) => {
-  players = players.map(player => {
-    if (player.id === id) {
-      return {...player, hand: hand}
-    } else {
-      return player
-    }
-  })
+    players = players.map(player => {
+        if (player.id === id) {
+            return {...player, hand: hand}
+        } else {
+            return player
+        }
+    })
 }
 
 const logout = (id) => {
@@ -84,9 +86,16 @@ const judge = () => {
     if (handsNoButting.length === 0) {
         console.log('CARRY_OVER')
         message = '全員バッティングのためキャリーオーバーです'
-        cnt < 15 && (point += points.pop())
+        players = players.map(player => ({...player, hand: 0}))
+        cnt < maxTurn && (point += points.pop())
     } else {
-        const hand = handsNoButting.reduce((a,b) => a.hand > b.hand ? a : b)
+        const hand = handsNoButting.reduce((a,b) => {
+            if (point > 0) {
+                return a.hand > b.hand ? a : b
+            } else {
+                return a.hand < b.hand ? a : b
+            }
+        })
         players = players.map(player => {
             if (player.id === hand.id) {
                 message = `${player.name}さんの得点です`
@@ -95,7 +104,7 @@ const judge = () => {
                 return {...player, hand: 0}
             }
         })
-        cnt < 15 < (point = points.pop())
+        cnt < maxTurn && (point = points.pop())
     }
 
     hands=[]
@@ -124,6 +133,14 @@ const gameEnd = () => {
     hands= []
 }
 
+const randomSort = ([...array]) => {
+    for (let i = array.length - 1; i >= 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 io = socket(server);
 
 io.on('connection', (socket) => {
@@ -149,12 +166,12 @@ io.on('connection', (socket) => {
             console.log('JUDGE')
             let message = judge()
             let lastGame = false
-            if (cnt < 15) {
+            if (cnt < maxTurn) {
                 cnt++
             } else {
                 lastGame = true
             }
-            io.emit('JUDGE', {message, lastGame})
+            io.emit('JUDGE', {message, lastGame, players})
         }
     })
 
@@ -170,6 +187,7 @@ io.on('connection', (socket) => {
             if (i === 0) continue
             points.push(i)
         }
+        points = randomSort(points)
         cnt++
         point = points.pop()
         io.emit('NEXT_TURN', {title: `${cnt}ターン目`, point: point})

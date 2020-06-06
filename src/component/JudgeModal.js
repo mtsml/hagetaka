@@ -11,6 +11,7 @@ const JudgeModal = () => {
     const [show, setShow] = useState(false)
     const [message, setMessage] = useState('')
     const [lastGame, setLastGame] = useState(false)
+    const [ranking, setRanking] = useState([])
     const {state, dispatch} = useContext(Store)
 
     const nextTurn = () => {
@@ -20,17 +21,16 @@ const JudgeModal = () => {
 
     useEffect(() => {
         state.socket.on('JUDGE', (data) => {
-            console.log(data)
             dispatch({ type: 'UPDATE', data })
             setMessage(data.message)
             setLastGame(data.lastGame)
+            setRanking(data.ranking)
             setShow(true)
         })
         return () => {
             state.socket.off('JUDGE')
         }},[]
     )
-
     return (
         <MDBModal isOpen={show}>
             <MDBModalHeader>
@@ -39,7 +39,7 @@ const JudgeModal = () => {
 
             <MDBModalBody>
                 <MDBListGroup>
-                    {[...state.players].sort((a, b) => { 
+                    {ranking.sort((a, b) => { 
                         if (a.point > b.point) return -1
                         if (a.point < b.point) return 1
                         return 0
@@ -51,6 +51,7 @@ const JudgeModal = () => {
                                 name={player.name}
                                 point={player.point}
                                 hand={player.hand}
+                                butting={player.butting}
                                 color={player.color}
                             />
                         )

@@ -171,7 +171,7 @@ io.on('connection', (socket) => {
             } else {
                 lastGame = true
             }
-            io.emit('JUDGE', {message, lastGame})
+            io.emit('JUDGE', {message, lastGame, players})
         }
     })
 

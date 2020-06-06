@@ -1,13 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter } from 'mdbreact'
+import { Button, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter,
+    MDBListGroup
+} from 'mdbreact'
 import { Store } from '../store/index'
 import { endGame } from '../util/util'
+import Player from './Player'
+
 
 const JudgeModal = () => {
     const [show, setShow] = useState(false)
     const [message, setMessage] = useState('')
     const [lastGame, setLastGame] = useState(false)
-    const {state} = useContext(Store)
+    const {state, dispatch} = useContext(Store)
 
     const nextTurn = () => {
         setShow(false)
@@ -16,6 +20,8 @@ const JudgeModal = () => {
 
     useEffect(() => {
         state.socket.on('JUDGE', (data) => {
+            console.log(data)
+            dispatch({ type: 'UPDATE', data })
             setMessage(data.message)
             setLastGame(data.lastGame)
             setShow(true)
@@ -28,11 +34,28 @@ const JudgeModal = () => {
     return (
         <MDBModal isOpen={show}>
             <MDBModalHeader>
-                ジャッジ
+                {message}
             </MDBModalHeader>
 
             <MDBModalBody>
-                {message}
+                <MDBListGroup>
+                    {[...state.players].sort((a, b) => { 
+                        if (a.point > b.point) return -1
+                        if (a.point < b.point) return 1
+                        return 0
+                    })
+                    .map((player, idx) => {
+                        return (
+                            <Player
+                                key={idx}
+                                name={player.name}
+                                point={player.point}
+                                hand={player.hand}
+                                color={player.color}
+                            />
+                        )
+                    })}
+                </MDBListGroup>
             </MDBModalBody>
 
             <MDBModalFooter>

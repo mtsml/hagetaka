@@ -80,14 +80,15 @@ const logout = (id) => {
 }
 
 const judge = () => {
+    let ranking = []
     let message = null
-
     const handsNoButting = hands.filter(hand => hand.butting === false)
     if (handsNoButting.length === 0) {
         console.log('CARRY_OVER')
         message = '全員バッティングのためキャリーオーバーです'
         players = players.map(player => ({...player, hand: 0}))
         cnt < maxTurn && (point += points.pop())
+        ranking = hands
     } else {
         const hand = handsNoButting.reduce((a,b) => {
             if (point > 0) {
@@ -104,11 +105,19 @@ const judge = () => {
                 return {...player, hand: 0}
             }
         })
+        ranking = hands.map(h => {
+            if (h.id === hand.id) {
+                return {...h, point: h.point + point}
+            } else {
+                return h
+            }
+        })
+
         cnt < maxTurn && (point = points.pop())
     }
 
-    hands=[]
-    return message
+    hands = players
+    return { ranking, message }
 }
 
 const addHand = (id, hand) => {
@@ -116,11 +125,17 @@ const addHand = (id, hand) => {
     hands = hands.map(h => {
         if (h.hand === hand) {
             butting = true
-            return {...h.hand, butting: true}
+            return {...h, butting: true}
         }
         return h
     })
-    hands.push({id, hand, butting})
+    hands = hands.map(h => {
+        if (h.id === id) {
+            return {...h, hand, butting}
+        } else {
+            return h
+        }
+    })
 }
 
 const gameEnd = () => {
@@ -164,14 +179,14 @@ io.on('connection', (socket) => {
         io.emit('UPDATE', {players});
         if (players.every(player => player.hand !== 0)) {
             console.log('JUDGE')
-            let message = judge()
+            const { ranking, message } = judge()
             let lastGame = false
             if (cnt < maxTurn) {
                 cnt++
             } else {
                 lastGame = true
             }
-            io.emit('JUDGE', {message, lastGame, players})
+            io.emit('JUDGE', {message, lastGame, players, ranking})
         }
     })
 
@@ -189,6 +204,7 @@ io.on('connection', (socket) => {
         }
         points = randomSort(points)
         cnt++
+        hands = players
         point = points.pop()
         io.emit('NEXT_TURN', {title: `${cnt}ターン目`, point: point})
     })

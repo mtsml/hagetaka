@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
-import { Button, Col, Row } from 'mdbreact'
+import React, { useContext, useState } from 'react';
+import { Button, Col, Row, MDBCardFooter } from 'mdbreact'
+import { logout, startGame, endGame } from '../util/util'
+import { Store } from '../store/index'
 
-const Footer = (props) => {
+
+const Footer = () => {
     const [buttonMessage, setButtonMessage] = useState('ゲーム開始')
-    const gameStart = () => {
-        setButtonMessage('次のターン')
-        props.socket.emit('GAME_START')
-    }
-    const gameEnd = () => {
-        props.socket.emit('GAME_END')
-    }
-    const logout = () => {
-        props.socket.emit('LOGOUT', props.name)
-    }
+    const {state} = useContext(Store)
 
     return (
-        <React.Fragment>
-            <Row>
-                <Col>
-                    <Button color="primary" onClick={() => logout()}>退出</Button>
-                </Col>
-                <Col>
-                    <Button color="primary" onClick={() => gameStart()}>{buttonMessage}</Button>
-                </Col>
-                <Col>
-                    <Button color="primary" onClick={() => gameEnd()}>ゲーム終了</Button>
-                </Col>
-            </Row>
-        </React.Fragment>
+        <div className="fixed-bottom">
+            <MDBCardFooter>
+                <Row>
+                    <Col>
+                        <Button color="primary" onClick={() => logout(state)}>退出</Button>
+                    </Col>
+                    <Col>
+                        <Button color="primary" onClick={() => startGame(state)}>{buttonMessage}</Button>
+                    </Col>
+                    <Col>
+                        <Button color="primary" onClick={() => endGame(state)}>ゲーム終了</Button>
+                    </Col>
+                </Row>
+            </MDBCardFooter>
+        </div>
     )
 }
 

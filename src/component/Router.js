@@ -1,31 +1,34 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import App from './App.js'
-import InputModal from './InputModal.js'
+import LoginModal from './LoginModal'
+import { Store } from '../store/index'
 
-const Router = (props) => {
-    const [login, setLogin] = useState(false)
-    const [players, setPlayers] = useState([])
-    const [name, setName] = useState(null)
-    const logout = () => {
-        setPlayers([])
-        setName(null)
-        setLogin(false)
+
+const Router = () => {
+    const {state, dispatch} = useContext(Store)
+
+    const socketOn = () => {
+        state.socket.on('LOGIN', (data) => {console.log('LOGIN');dispatch({ type: 'LOGIN', data})})
+        state.socket.on('LOGOUT', () => {console.log('LOGOUT');dispatch({ type: 'LOGOUT' })})
+        state.socket.on('UPDATE', (data) => {console.log('UPDATE');dispatch({ type: 'UPDATE', data })})
+        state.socket.on('GAME_END', () => {console.log('GAME_END');dispatch({ type: 'GAME_END' })})
     }
 
-    props.socket.on('LOGIN', (data) => {
-        setPlayers(data.players)
-        setName(data.name)
-        setLogin(true)
-    })
-    props.socket.on('LOGOUT', (data) => {
-        logout()
-    })
-    props.socket.on('GAME_END', (data) => { 
-        logout()
-    })
+    const socketOff = () => {
+        state.socket.off('LOGIN')
+        state.socket.off('LOGOUT')
+        state.socket.off('UPDATE')
+        state.socket.off('GAME_END')
+    }
+
+    useEffect(() => {
+        socketOn()
+        return () => socketOff
+        },[]
+    )
 
     return (
-        login?<App socket={props.socket} name={name} players={players}/>:<InputModal socket={props.socket} />
+        state.login?<App />:<LoginModal />
     )
 }
 

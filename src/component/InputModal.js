@@ -1,41 +1,66 @@
-import React, { useState } from 'react'
-import { Button, Input, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact'
+import React, { useContext, useEffect, useState } from 'react'
+import { Row, Col, Button, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact'
+import Hand from './Hand.js'
+import Point from './Point.js'
+import { Store } from '../store/index'
 
-const InputModal = (props) => {
-    const [name, setName] = useState(null)
-    const [message, setMessage] = useState(null)
 
-    const onChange = (e) => setName(e.target.value)
+const InputModal = () => {
+    const [title, setTitle] = useState('')
+    const [hand, setHand] = useState(1)
+    const [show, setShow] = useState(false)
+    const {state, dispatch} = useContext(Store)
 
-    const submit = ()  => {
-        props.socket.emit('INIT', name)
-    }    
-    
-    const endGame = () => {
-        props.socket.emit('GAME_END')
+    const sendHand = () => {
+        setShow(false)
+        state.socket.emit('SEND_HAND', hand)
     }
 
-    props.socket.on('INIT_FAILED', (data) => {
-        setMessage(data.message)
-    })
+    useEffect(() => {
+        state.socket.on('NEXT_TURN', (data) => {
+            setTitle(data.title)
+            setShow(true)
+            dispatch({ type: 'NEXT_TURN', data })
+        })
+        return () => {
+            state.socket.off('NEXT_TURN')
+        }},[]
+    )
 
     return (
-        <MDBModal isOpen={true}>
+        <MDBModal isOpen={show}>
             <MDBModalHeader>
-                名前を入力してください
+                {title}　得点カード
+                <Point point={state.point} />
             </MDBModalHeader>
 
             <MDBModalBody>
-                <Input area-label="名前" onChange={onChange} />
-                {message&&<p>{message}</p>}
+                {[1, 2, 3].map(i => {
+                    return (
+                        <Row key={i} className="justify-content-md-center">
+                            {[1, 2, 3, 4, 5].map(j => {
+                                let val = (i - 1) * 5 + j
+                                return (
+                                    <Col key={val}>
+                                        <Hand
+                                            text={val}
+                                            color="primary"
+                                            onClick={() => setHand(val)}
+                                        />
+                                    </Col>
+                                )
+                            })
+                            }
+                        </Row>
+                    )
+                })}
             </MDBModalBody>
 
             <MDBModalFooter>
-                <Button color="primary" onClick={endGame}>強制ゲーム終了</Button>
-                <Button color="primary" onClick={submit}>確定</Button>
+                <Button color="primary" onClick={() => sendHand()}>確定</Button>
             </MDBModalFooter>
         </MDBModal>
-    )    
+    )
 }
 
 export default InputModal

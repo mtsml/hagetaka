@@ -6,7 +6,7 @@ const Player = (props) => {
     return (
         <MDBListGroupItem fab color={props.color}>
             <MDBIcon icon="user-circle" />
-            {props.name}さん {props.point}ポイント                
+            {props.name}さん {props.point}ポイント
             <Hand text={props.hand} color={props.color}/>
         </MDBListGroupItem>
     )

@@ -6,15 +6,17 @@ const app = express();
 let cnt = 0
 let players = []
 let colors = [
-  {color: 'primary', use: false},
-  {color: "secondary", use: false},
-  {color: "success", use: false},
-  {color: "warning", use: false},
-  {color: "danger", use: false},
-  {color: "info", use: false}
+    {color: 'primary', use: false},
+    {color: "secondary", use: false},
+    {color: "success", use: false},
+    {color: "warning", use: false},
+    {color: "danger", use: false},
+    {color: "info", use: false}
 ]
-let point = []
+let points = []
+let point = 0
 let onGame = false
+let hands = []
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -61,29 +63,55 @@ const updatePlayer = (id, hand) => {
 }
 
 const logout = (id) => {
-  players.forEach(player => {
-    if (player.id === id) {
-      colors = colors.map(color => {
-        if (color.color === player.color) {
-          return {...color, use: false}
-        } else {
-          return color
+    players.forEach(player => {
+        if (player.id === id) {
+        colors = colors.map(color => {
+            if (color.color === player.color) {
+            return {...color, use: false}
+            } else {
+            return color
+            }
+        })
         }
-      })
-    }
-  })
-  players = players.filter(player => player.id !== id)
+    })
+    players = players.filter(player => player.id !== id)
 }
 
-const gameStart = () => {
-    if (cnt === 0) {
-        onGame = true
-        for (let i = -5; i <= 10; i++) {
-            if (i === 0) continue
-            point.push(i)
-        }
+const judge = () => {
+    let message = null
+
+    const handsNoButting = hands.filter(hand => hand.butting === false)
+    if (handsNoButting.length === 0) {
+        console.log('CARRY_OVER')
+        message = '全員バッティングのためキャリーオーバーです'
+        cnt < 15 && (point += points.pop())
+    } else {
+        const hand = handsNoButting.reduce((a,b) => a.hand > b.hand ? a : b)
+        players = players.map(player => {
+            if (player.id === hand.id) {
+                message = `${player.name}さんの得点です`
+                return {...player, hand: 0, point: player.point + point}
+            } else {
+                return {...player, hand: 0}
+            }
+        })
+        cnt < 15 < (point = points.pop())
     }
-    cnt++
+
+    hands=[]
+    return message
+}
+
+const addHand = (id, hand) => {
+    let butting = false
+    hands = hands.map(h => {
+        if (h.hand === hand) {
+            butting = true
+            return {...h.hand, butting: true}
+        }
+        return h
+    })
+    hands.push({id, hand, butting})
 }
 
 const gameEnd = () => {
@@ -91,49 +119,73 @@ const gameEnd = () => {
     onGame = false
     players = []
     colors = colors.map(color => ({...color, use: false}))
+    points = []
+    point = 0
+    hands= []
 }
 
 io = socket(server);
 
 io.on('connection', (socket) => {
-  socket.on('INIT', (name) => {
-    console.log('INIT')
-    if (onGame) {
-      io.to(socket.id).emit('INIT_FAILED', {message: 'ゲーム中です'})
-    } else if (addPlayer(socket.id, name)) {
-      io.to(socket.id).emit('LOGIN', {players, name})
-      io.emit('INIT', {players, message: `${name}さんが入室しました。`})
-    } else {
-      io.to(socket.id).emit('INIT_FAILED', {message: '定員オーバーです'})
-    }
-  })
+    socket.on('LOGIN', (name) => {
+        console.log('LOGIN')
+        if (onGame) {
+            io.to(socket.id).emit('LOGIN_FAILED', {message: 'ゲーム中です'})
+        } else if (addPlayer(socket.id, name)) {
+            io.to(socket.id).emit('LOGIN', {players, name})
+            io.emit('NOTIFY', {message: `${name}さんが入室しました`})
+            io.emit('UPDATE', {players})
+        } else {
+            io.to(socket.id).emit('LOGIN_FAILED', {message: '定員オーバーです'})
+        }
+    })
 
-  socket.on('SEND_HAND', function(hand){
-    console.log('SEND_HAND')
-    updatePlayer(socket.id, hand)
-    io.emit('UPDATE_PLAYER', {players});
-  })
+    socket.on('SEND_HAND', (hand) => {
+        console.log('SEND_HAND')
+        addHand(socket.id, hand)
+        updatePlayer(socket.id, hand)
+        io.emit('UPDATE', {players});
+        if (players.every(player => player.hand !== 0)) {
+            console.log('JUDGE')
+            let message = judge()
+            let lastGame = false
+            if (cnt < 15) {
+                cnt++
+            } else {
+                lastGame = true
+            }
+            io.emit('JUDGE', {message, lastGame})
+        }
+    })
 
-  socket.on('GAME_START', () => {
-    console.log('GAME_START')
-    if (cnt === 15) {
+    socket.on('NEXT_TURN', () => {
+        console.log('NEXT_TURN')
+        io.to(socket.id).emit('NEXT_TURN', {title: `${cnt}ターン目`, point: point})
+    })
+
+    socket.on('GAME_START', () => {
+        console.log('GAME_START')
+        onGame = true
+        for (let i = -5; i <= 10; i++) {
+            if (i === 0) continue
+            points.push(i)
+        }
+        cnt++
+        point = points.pop()
+        io.emit('NEXT_TURN', {title: `${cnt}ターン目`, point: point})
+    })
+
+    socket.on('GAME_END', () => {
+        console.log('GAME_END')
+        gameEnd()
         io.emit('GAME_END')
-    } else {
-        gameStart()
-        io.emit('GAME_START', {title: `${cnt}ターン目`, point: point.pop()})
-    }
-  })
+    })
 
-  socket.on('GAME_END', () => {
-    console.log('GAME_END')
-    gameEnd()
-    io.emit('GAME_END')
-  })
-
-  socket.on('LOGOUT', (name) => {
-    console.log('LOGOUT')
-    logout(socket.id)
-    io.to(socket.id).emit('LOGOUT')
-    socket.broadcast.emit('INIT', {players, message: `${name}さんが退出しました。`})
-  })
+    socket.on('LOGOUT', (name) => {
+        console.log('LOGOUT')
+        logout(socket.id)
+        io.to(socket.id).emit('LOGOUT')
+        socket.broadcast.emit('NOTIFY', {message: `${name}さんが退出しました`})
+        socket.broadcast.emit('UPDATE', {players})
+    })
 });

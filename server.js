@@ -88,7 +88,13 @@ const judge = () => {
         message = '全員バッティングのためキャリーオーバーです'
         cnt < maxTurn && (point += points.pop())
     } else {
-        const hand = handsNoButting.reduce((a,b) => a.hand > b.hand ? a : b)
+        const hand = handsNoButting.reduce((a,b) => {
+            if (point > 0) {
+                return a.hand > b.hand ? a : b
+            } else {
+                return a.hand < b.hand ? a : b
+            }
+        })
         players = players.map(player => {
             if (player.id === hand.id) {
                 message = `${player.name}さんの得点です`

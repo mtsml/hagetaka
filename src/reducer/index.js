@@ -8,9 +8,10 @@ const reducer = (state, action) => {
                 login : true,
                 name: action.data.name
             }
-        case 'GAME_START':
+        case 'NEXT_TURN':
             return {
                 ...state,
+                onGame: true,
                 point: action.data.point
             }
         case 'UPDATE':

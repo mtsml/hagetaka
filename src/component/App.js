@@ -3,9 +3,9 @@ import Header from './Header'
 import Body from './Body'
 import Footer from './Footer'
 import NotificationContainer from './NotificationContainer'
-import MessageModal from './MessageModal'
+import InputModal from './InputModal'
+import JudgeModal from './JudgeModal'
 import './../css/App.css';
-
 
 const App = () => {
     return (
@@ -14,7 +14,8 @@ const App = () => {
             <Body />
             <Footer />
 
-            <MessageModal />
+            <InputModal />
+            <JudgeModal />
             <NotificationContainer />
         </div>
     )

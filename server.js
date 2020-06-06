@@ -86,6 +86,7 @@ const judge = () => {
     if (handsNoButting.length === 0) {
         console.log('CARRY_OVER')
         message = '全員バッティングのためキャリーオーバーです'
+        players = players.map(player => ({...player, hand: 0}))
         cnt < maxTurn && (point += points.pop())
     } else {
         const hand = handsNoButting.reduce((a,b) => {

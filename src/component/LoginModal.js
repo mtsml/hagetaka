@@ -3,7 +3,7 @@ import { Button, Input, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter }
 import { Store } from '../store/index'
 import { login, endGame } from '../util/util'
 
-const version = '1.0.0'
+const version = '1.0.1'
 
 const LoginModal = () => {
     const [name, setName] = useState(null)

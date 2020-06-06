@@ -3,6 +3,7 @@ import { Button, Input, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter }
 import { Store } from '../store/index'
 import { login, endGame } from '../util/util'
 
+const version = '1.0.0'
 
 const LoginModal = () => {
     const [name, setName] = useState(null)
@@ -31,6 +32,7 @@ const LoginModal = () => {
             </MDBModalBody>
 
             <MDBModalFooter>
+                ver{version}
                 <Button color="primary" onClick={() => endGame(state)}>強制ゲーム終了</Button>
                 <Button color="primary" onClick={() => login(state, name)}>確定</Button>
             </MDBModalFooter>

@@ -33,8 +33,8 @@ const LoginModal = () => {
 
             <MDBModalFooter>
                 ver{version}
-                <Button color="primary" onClick={() => endGame(state)}>強制ゲーム終了</Button>
-                <Button color="primary" onClick={() => login(state, name)}>確定</Button>
+                <Button color='mdb-color' onClick={() => endGame(state)}>強制ゲーム終了</Button>
+                <Button color='mdb-color' onClick={() => login(state, name)}>確定</Button>
             </MDBModalFooter>
         </MDBModal>
     )    

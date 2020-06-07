@@ -19,6 +19,18 @@ const reducer = (state, action) => {
                 ...state,
                 players: action.data.players
             }
+        case 'SET_HAND':
+            const hands = state.hands.map(hand => {
+                if (hand.hand === action.data.hand) {
+                    return {...hand, used: true}
+                } else {
+                    return hand
+                }
+            })
+            return {
+                ...state,
+                hands: hands
+            }
         case 'LOGOUT':
             return initialState
         case 'GAME_END':

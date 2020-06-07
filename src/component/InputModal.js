@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Row, Col, Button, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact'
+import { Button, MDBModal, MDBModalBody, MDBModalHeader } from 'mdbreact'
 import Hand from './Hand.js'
 import Point from './Point.js'
 import { Store } from '../store/index'
+import '../css/InputModal.css'
 
 
 const InputModal = () => {
+    const {state, dispatch} = useContext(Store)
     const [title, setTitle] = useState('')
     const [hand, setHand] = useState(1)
     const [show, setShow] = useState(false)
-    const {state, dispatch} = useContext(Store)
-
+    
     const sendHand = () => {
         setShow(false)
+        dispatch({ type: 'SET_HAND', data: {hand}})
         state.socket.emit('SEND_HAND', hand)
     }
 
@@ -21,7 +23,7 @@ const InputModal = () => {
             setTitle(data.title)
             setShow(true)
             dispatch({ type: 'NEXT_TURN', data })
-        })
+        })            
         return () => {
             state.socket.off('NEXT_TURN')
         }},[]
@@ -31,34 +33,30 @@ const InputModal = () => {
         <MDBModal isOpen={show}>
             <MDBModalHeader>
                 {title}　得点カード
-                <Point point={state.point} />
+                <Point color='mdb-color' point={state.point} />
+                <Button color="mdb-color" onClick={() => sendHand()}>確定</Button>
             </MDBModalHeader>
 
             <MDBModalBody>
-                {[1, 2, 3].map(i => {
+                {[1,2,3].map((i => {
                     return (
-                        <Row key={i} className="justify-content-md-center">
-                            {[1, 2, 3, 4, 5].map(j => {
-                                let val = (i - 1) * 5 + j
+                        <div className='input'>
+                            {state.hands.filter(h => h.hand > 5*(i-1) && h.hand <= 5*i).map(h => {
                                 return (
-                                    <Col key={val}>
-                                        <Hand
-                                            text={val}
-                                            color="primary"
-                                            onClick={() => setHand(val)}
-                                        />
-                                    </Col>
+                                    <Hand
+                                        className='input-button waves-effect'
+                                        text={h.hand}
+                                        color='mdb-color'
+                                        disabled={h.used}
+                                        outline={!(hand===h.hand)&&!h.used}
+                                        onClick={!h.used&&(() => setHand(h.hand))}
+                                    />
                                 )
-                            })
-                            }
-                        </Row>
+                            })}
+                        </div>
                     )
-                })}
+                }))}
             </MDBModalBody>
-
-            <MDBModalFooter>
-                <Button color="primary" onClick={() => sendHand()}>確定</Button>
-            </MDBModalFooter>
         </MDBModal>
     )
 }

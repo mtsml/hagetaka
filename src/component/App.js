@@ -1,7 +1,6 @@
 import React from 'react';
-import Header from './Header'
+import Navbar from './Navbar'
 import Body from './Body'
-import Footer from './Footer'
 import NotificationContainer from './NotificationContainer'
 import InputModal from './InputModal'
 import JudgeModal from './JudgeModal'
@@ -10,9 +9,8 @@ import './../css/App.css';
 const App = () => {
     return (
         <div className="App">
-            <Header />
+            <Navbar />
             <Body />
-            <Footer />
 
             <InputModal />
             <JudgeModal />

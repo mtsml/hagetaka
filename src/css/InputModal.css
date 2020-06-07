@@ -1,0 +1,11 @@
+.input {
+    /* font-size: 3rem!important; */
+    /* padding: 10px; */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.input button {
+    font-size: 1rem;
+    padding: 10px;
+}

@@ -3,7 +3,11 @@ import { Button } from 'mdbreact'
 
 const Point = (props) => {
     return (
-        <Button color='primary'>{props.point}</Button>
+        <Button 
+            color={props.color||'primary'}
+        >
+            {props.point}
+        </Button>
     )
 }
 

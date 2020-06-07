@@ -15,7 +15,6 @@ const Body = () => {
                         key={idx}
                         name={player.name}
                         point={player.point}
-                        hand={player.hand}
                         color={player.color}
                     />
                 )

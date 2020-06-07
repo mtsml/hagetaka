@@ -192,7 +192,12 @@ io.on('connection', (socket) => {
 
     socket.on('NEXT_TURN', () => {
         console.log('NEXT_TURN')
-        io.to(socket.id).emit('NEXT_TURN', {title: `${cnt}ターン目`, point: point})
+        const message = point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'
+        io.to(socket.id).emit('NEXT_TURN', {
+            title: `${cnt}ターン目`, 
+            message, 
+            point: point
+        })
     })
 
     socket.on('GAME_START', () => {
@@ -206,7 +211,8 @@ io.on('connection', (socket) => {
         cnt++
         hands = players
         point = points.pop()
-        io.emit('NEXT_TURN', {title: `${cnt}ターン目`, point: point})
+        const message = point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'
+        io.emit('NEXT_TURN', {title: `${cnt}ターン目`, message, point: point})
     })
 
     socket.on('GAME_END', () => {

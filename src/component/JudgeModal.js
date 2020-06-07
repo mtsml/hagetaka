@@ -62,8 +62,8 @@ const JudgeModal = () => {
             <MDBModalFooter>
                 {
                     lastGame ? 
-                        <Button color='primary' onClick={() => endGame(state)}>ゲーム終了</Button>
-                        :<Button color='primary' onClick={() => nextTurn()}>次のターンへ</Button>
+                        <Button color='mdb-color' onClick={() => endGame(state)}>ゲーム終了</Button>
+                        :<Button color='mdb-color' onClick={() => nextTurn()}>次のターンへ</Button>
                 }
             </MDBModalFooter>
         </MDBModal>

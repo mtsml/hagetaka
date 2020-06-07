@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, MDBModal, MDBModalBody, MDBModalHeader } from 'mdbreact'
 import Hand from './Hand.js'
-import Point from './Point.js'
 import { Store } from '../store/index'
 import '../css/InputModal.css'
 
 
 const InputModal = () => {
     const {state, dispatch} = useContext(Store)
-    const [title, setTitle] = useState('')
+    const [message, setMessage] = useState('')
     const [hand, setHand] = useState(1)
     const [show, setShow] = useState(false)
     
@@ -20,9 +19,8 @@ const InputModal = () => {
 
     useEffect(() => {
         state.socket.on('NEXT_TURN', (data) => {
-            setTitle(data.title)
+            setMessage(data.message)
             setShow(true)
-            dispatch({ type: 'NEXT_TURN', data })
         })            
         return () => {
             state.socket.off('NEXT_TURN')
@@ -30,10 +28,9 @@ const InputModal = () => {
     )
 
     return (
-        <MDBModal isOpen={show}>
+        <MDBModal className='fixed-bottom' isOpen={show}>
             <MDBModalHeader>
-                {title}　得点カード
-                <Point color='mdb-color' point={state.point} />
+                {message}
                 <Button color="mdb-color" onClick={() => sendHand()}>確定</Button>
             </MDBModalHeader>
 

@@ -16,18 +16,15 @@ import { logout, startGame, endGame } from '../util/util'
 
 
 const Header = () => {
-    const [open, setOpen] = useState(false)
     const [headerMessage, setHeaderMessage] = useState('待機中')
-    const [buttonMessage, setButtonMessage] = useState('ゲーム開始')
     const {state, dispatch} = useContext(Store)
 
     useEffect(() => {
-        state.socket.on('GAME_START', (data) => {
-            console.log('GAME_START')
+        state.socket.on('NEXT_TURN', (data) => {
             setHeaderMessage(data.title)
-            dispatch({ type: 'GAME_START', data })
+            dispatch({ type: 'NEXT_TURN', data })
         })
-        return () => state.socket.off('GAME_START')
+        return () => state.socket.off('NEXT_TURN')
         },[]
     )
 
@@ -39,7 +36,7 @@ const Header = () => {
         >
             <MDBNavbarBrand>
                 {headerMessage}
-                <Point point={state.point} color='mdb-color'/>                    
+                {state.onGame&&<Point point={state.point} color='mdb-color'/>}
             </MDBNavbarBrand>
 
             <MDBNavbarNav right>
@@ -49,9 +46,12 @@ const Header = () => {
                             <MDBIcon icon='bars' size='2x'/>
                         </MDBDropdownToggle>
                         <MDBDropdownMenu right>
-                            <MDBDropdownItem onClick={() => startGame(state)}>{buttonMessage}</MDBDropdownItem>
+                            <MDBDropdownItem
+                                onClick={state.onGame?(() => endGame(state)):(() => startGame(state))}
+                            >
+                                {state.onGame?'ゲーム終了':'ゲーム開始'}
+                            </MDBDropdownItem>
                             <MDBDropdownItem onClick={() => logout(state)}>退出</MDBDropdownItem>
-                            <MDBDropdownItem onClick={() => endGame(state)}>ゲーム終了</MDBDropdownItem>
                         </MDBDropdownMenu>
                     </MDBDropdown>
                 </MDBNavItem>

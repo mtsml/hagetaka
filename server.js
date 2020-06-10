@@ -159,11 +159,12 @@ const randomSort = ([...array]) => {
 io = socket(server);
 
 io.on('connection', (socket) => {
-    socket.on('LOGIN', (name) => {
+    socket.on('LOGIN', (name, room) => {
         console.log('LOGIN')
         if (onGame) {
             io.to(socket.id).emit('LOGIN_FAILED', {message: 'ゲーム中です'})
         } else if (addPlayer(socket.id, name)) {
+            socket.join(room)
             io.to(socket.id).emit('LOGIN', {players, name})
             io.emit('NOTIFY', {message: `${name}さんが入室しました`})
             io.emit('UPDATE', {players})

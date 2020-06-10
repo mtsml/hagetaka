@@ -9,8 +9,8 @@ export const getHost = () => {
     }
 }
 
-export const login = (state, name)  => {
-    state.socket.emit('LOGIN', name)
+export const login = (state, name, room)  => {
+    state.socket.emit('LOGIN', name, room)
 }    
 
 export const logout = (state) => {

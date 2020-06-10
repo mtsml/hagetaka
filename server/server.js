@@ -1,6 +1,7 @@
-const express = require('express');
-const path = require('path');
-const socket = require('socket.io');
+const express = require('express')
+const path = require('path')
+const socket = require('socket.io')
+const port = require('./util/const')
 
 const app = express();
 const maxTurn = 15
@@ -26,7 +27,7 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-server = app.listen(8090, function(){
+server = app.listen(port, function(){
     console.log('server is running on port 8090')
 });
 

@@ -21,8 +21,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-server = app.listen(8090, () => {
-    console.log('server is running on port 8090')
+server = app.listen(80, () => {
+    console.log('server is running on port 80')
+    process.setuid(1000)
 });
 
 // 同期にしないとまずい

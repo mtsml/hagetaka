@@ -14,7 +14,7 @@ const InputModal = () => {
     const sendHand = () => {
         setShow(false)
         dispatch({ type: 'SET_HAND', data: {hand}})
-        state.socket.emit('SEND_HAND', hand)
+        state.socket.emit('SEND_HAND', {room: state.room, hand})
     }
 
     useEffect(() => {

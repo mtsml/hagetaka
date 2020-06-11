@@ -9,18 +9,19 @@ export const getHost = () => {
     }
 }
 
-export const login = (state, name)  => {
-    state.socket.emit('LOGIN', name)
+export const login = (state, name, room)  => {
+    state.socket.emit('LOGIN', {name, room})
 }    
 
 export const logout = (state) => {
-    state.socket.emit('LOGOUT', state.name)
+    state.socket.emit('LOGOUT', {
+        name: state.name, 
+        room: state.room
+    })
 }
 
 export const startGame = (state) => {
-    state.socket.emit('GAME_START')
-}
-
-export const endGame = (state) => {
-    state.socket.emit('GAME_END')
+    state.socket.emit('GAME_START', {
+        room: state.room
+    })
 }

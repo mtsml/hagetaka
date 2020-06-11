@@ -6,7 +6,8 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 login : true,
-                name: action.data.name
+                name: action.data.name,
+                room: action.data.room
             }
         case 'NEXT_TURN':
             return {
@@ -32,8 +33,6 @@ const reducer = (state, action) => {
                 hands: hands
             }
         case 'LOGOUT':
-            return initialState
-        case 'GAME_END':
             return initialState
         default:
             return state

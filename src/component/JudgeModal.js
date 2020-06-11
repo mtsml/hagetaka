@@ -3,7 +3,7 @@ import { Button, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter,
     MDBListGroup
 } from 'mdbreact'
 import { Store } from '../store/index'
-import { endGame } from '../util/util'
+import { logout } from '../util/util'
 import Player from './Player'
 
 
@@ -16,7 +16,7 @@ const JudgeModal = () => {
 
     const nextTurn = () => {
         setShow(false)
-        state.socket.emit('NEXT_TURN')
+        state.socket.emit('NEXT_TURN', {room: state.room})
     }
 
     useEffect(() => {
@@ -62,7 +62,7 @@ const JudgeModal = () => {
             <MDBModalFooter>
                 {
                     lastGame ? 
-                        <Button color='mdb-color' onClick={() => endGame(state)}>ゲーム終了</Button>
+                        <Button color='mdb-color' onClick={() => logout(state)}>ゲーム終了</Button>
                         :<Button color='mdb-color' onClick={() => nextTurn()}>次のターンへ</Button>
                 }
             </MDBModalFooter>

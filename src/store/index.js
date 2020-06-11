@@ -3,12 +3,12 @@ import io from "socket.io-client";
 import { getHost } from '../util/util'
 import reducer from '../reducer/index'
 
-
 const Store = createContext()
 const socket = io(getHost());
 const initialState = {
     socket: socket,
     name: null,
+    room: null,
     point: 0,
     players: [],
     onGame: false,

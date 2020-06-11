@@ -12,7 +12,7 @@ import {
   } from 'mdbreact';
 import Point from './Point.js'
 import { Store } from '../store/index'
-import { logout, startGame, endGame } from '../util/util'
+import { logout, startGame } from '../util/util'
 
 
 const Header = () => {
@@ -46,12 +46,14 @@ const Header = () => {
                             <MDBIcon icon='bars' size='2x'/>
                         </MDBDropdownToggle>
                         <MDBDropdownMenu right>
-                            <MDBDropdownItem
-                                onClick={state.onGame?(() => endGame(state)):(() => startGame(state))}
-                            >
-                                {state.onGame?'ゲーム終了':'ゲーム開始'}
+                            {!state.onGame&&
+                                <MDBDropdownItem onClick={() => startGame(state)}>
+                                    ゲーム開始
+                                </MDBDropdownItem>
+                            }
+                            <MDBDropdownItem onClick={() => logout(state)}>
+                                退出
                             </MDBDropdownItem>
-                            <MDBDropdownItem onClick={() => logout(state)}>退出</MDBDropdownItem>
                         </MDBDropdownMenu>
                     </MDBDropdown>
                 </MDBNavItem>

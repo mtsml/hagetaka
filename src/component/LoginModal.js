@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, MDBInput, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact'
 import { Store } from '../store/index'
-import { login, endGame } from '../util/util'
+import { login } from '../util/util'
 import { version } from '../util/const'
 
 
@@ -33,7 +33,6 @@ const LoginModal = () => {
 
             <MDBModalFooter>
                 <span>ver{version}</span>
-                <Button color='mdb-color' onClick={() => endGame(state)}>強制ゲーム終了</Button>
                 <Button color='mdb-color' onClick={() => login(state, name, room)}>入室</Button>
             </MDBModalFooter>
         </MDBModal>

@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 
 server = app.listen(80, () => {
     console.log('server is running on port 80')
+    process.setuid(1000)
 });
 
 // 同期にしないとまずい

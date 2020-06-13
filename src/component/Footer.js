@@ -2,16 +2,27 @@ import React, { useContext } from 'react'
 import { Button, MDBCardFooter, MDBIcon } from 'mdbreact'
 import { Store } from '../store/index'
 import { proc } from '../util/const'
+import { isNull } from '../util/util'
 import '../css/Footer.css'
 
 const Footer = () => {
     const {state, dispatch} = useContext(Store)
 
     const login = ()  => {
-        state.socket.emit('LOGIN', {
-            name: state.name, 
-            room: state.room
-        })
+        if (isNull(state.name)||isNull(state.room)) {
+            dispatch({
+                type: 'SET_STATE',
+                data: {
+                    key: 'message',
+                    value: '名前とルームを入力してください'
+                }
+            })
+        } else {
+            state.socket.emit('LOGIN', {
+                name: state.name, 
+                room: state.room
+            })
+        }
     }        
     
     const logout = () => {
@@ -56,17 +67,17 @@ const Footer = () => {
     return (
         <MDBCardFooter id='footer' className='fixed-bottom'>
             {state.proc === proc.login?
-                <Button color='mdb-color' onClick={login}>入室</Button>:
+                <Button color='mdb-color' disabled={state.name===null||state.room===null} onClick={login}>入室</Button>:
             state.proc === proc.wait?
                 <>
                     <Button color='mdb-color' onClick={logout}>退出</Button>
-                    <Button color='mdb-color' disabled={state.wait} onClick={startGame}>
+                    <Button color='mdb-color' disabled={isNull(state.name)||isNull(state.room)} onClick={startGame}>
                         {state.wait&&<MDBIcon icon='spinner' spin/>}
                         ゲーム開始
                     </Button>
                 </>:
             state.proc === proc.input?
-                <Button color='mdb-color' disabled={state.wait} onClick={sendHand}>
+                <Button color='mdb-color' disabled={state.wait||state.hand===0} onClick={sendHand}>
                     {state.wait&&<MDBIcon icon='spinner' spin/>}
                     確定
                 </Button>:

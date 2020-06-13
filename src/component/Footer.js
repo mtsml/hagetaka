@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Button, MDBCardFooter } from 'mdbreact'
+import { Button, MDBCardFooter, MDBIcon } from 'mdbreact'
 import { Store } from '../store/index'
 import { proc } from '../util/const'
 import '../css/Footer.css'
@@ -22,6 +22,14 @@ const Footer = () => {
     }
     
     const startGame = () => {
+        dispatch({type: 'SET_STATE', data: {
+            key: 'wait',
+            value: true
+        }})
+        dispatch({type: 'SET_STATE', data: {
+            key: 'message',
+            value: '他のプレイヤーを待っています...'
+        }})
         state.socket.emit('GAME_START', {
             room: state.room
         })
@@ -52,10 +60,16 @@ const Footer = () => {
             state.proc === proc.wait?
                 <>
                     <Button color='mdb-color' onClick={logout}>退出</Button>
-                    <Button color='mdb-color' onClick={startGame}>ゲーム開始</Button>
+                    <Button color='mdb-color' disabled={state.wait} onClick={startGame}>
+                        {state.wait&&<MDBIcon icon='spinner' spin/>}
+                        ゲーム開始
+                    </Button>
                 </>:
             state.proc === proc.input?
-                <Button color='mdb-color' onClick={sendHand}>確定</Button>:
+                <Button color='mdb-color' disabled={state.wait} onClick={sendHand}>
+                    {state.wait&&<MDBIcon icon='spinner' spin/>}
+                    確定
+                </Button>:
             state.proc === proc.result?
                 <Button color='mdb-color' onClick={nextTurn}>次へ</Button>:
             state.proc === proc.end?

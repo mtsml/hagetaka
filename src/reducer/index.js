@@ -23,7 +23,8 @@ const reducer = (state, action) => {
                 proc: proc.input,
                 point: action.data.point,
                 cnt: action.data.cnt,
-                message: action.data.message
+                message: action.data.message,
+                wait: false
             }
         case 'SEND_HAND':
             const hands = state.hands.map(hand => {
@@ -36,7 +37,9 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 hand: 0,
-                hands: hands
+                hands: hands,
+                wait: true,
+                message: '他のプレイヤーを待っています...'
             }
         case 'LOGOUT':
             return initialState

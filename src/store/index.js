@@ -10,6 +10,7 @@ const initialState = {
     socket: socket,
     name: null,
     room: null,
+    wait: false,
     message: 'ログイン',
     cnt: 0,
     point: 0,

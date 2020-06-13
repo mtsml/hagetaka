@@ -10,13 +10,13 @@ const Header = () => {
 
     return (
         <MDBCardHeader>
-            <div id='header'>
-                <span id='message'>{state.message}</span>
-                {(state.proc === proc.input || state.proc === proc.result) && <span id='cnt'>　{state.cnt}ターン目</span>}
-            </div>
-            <div id='point'>
-                {(state.proc === proc.input || state.proc === proc.result) && <Point point={state.point} size='2x'/>}
-            </div>
+            <span id='message'>{state.message}</span>
+            {(state.proc === proc.input || state.proc === proc.result)&&
+                <div id='header'>
+                    <span id='cnt'>　{state.cnt}ターン目　</span>
+                    <Point id='point' point={state.point} size='2x'/>
+                </div>
+            }
         </MDBCardHeader>
     )    
 }

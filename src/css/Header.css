@@ -4,11 +4,6 @@
     align-items: flex-end;
 }
 
-#point {
-    display: flex;
-    justify-content: center;
-}
-
 #message {
     font-size: 130%;
     display: flex;

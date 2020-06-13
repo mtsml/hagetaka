@@ -105,7 +105,7 @@ const judge = (room) => {
         })
         rooms[room].players = rooms[room].players.map(player => {
             if (player.id === hand.id) {
-                message = `${player.name}さんの得点です`
+                message = `${player.name}さんの得点です！`
                 return {...player, point: player.point + rooms[room].point}
             } else {
                 return {...player}

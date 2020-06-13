@@ -1,0 +1,11 @@
+#header {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#message {
+    font-size: 130%;
+    display: flex;
+    justify-content: center;
+}

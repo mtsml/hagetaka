@@ -1,4 +1,5 @@
 import { initialState } from '../store/index'
+import { proc } from '../util/const'
 
 const reducer = (state, action) => {
     switch(action.type) {
@@ -6,23 +7,28 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 login : true,
+                proc: proc.wait,
+                message: action.data.message,
                 name: action.data.name,
                 room: action.data.room
+            }
+        case 'SET_STATE':
+            return {
+                ...state,
+                [action.data.key]: action.data.value
             }
         case 'NEXT_TURN':
             return {
                 ...state,
-                onGame: true,
-                point: action.data.point
+                proc: proc.input,
+                point: action.data.point,
+                cnt: action.data.cnt,
+                message: action.data.message,
+                wait: false
             }
-        case 'UPDATE':
-            return {
-                ...state,
-                players: action.data.players
-            }
-        case 'SET_HAND':
+        case 'SEND_HAND':
             const hands = state.hands.map(hand => {
-                if (hand.hand === action.data.hand) {
+                if (hand.hand === state.hand) {
                     return {...hand, used: true}
                 } else {
                     return hand
@@ -30,7 +36,10 @@ const reducer = (state, action) => {
             })
             return {
                 ...state,
-                hands: hands
+                hand: 0,
+                hands: hands,
+                wait: true,
+                message: '他のプレイヤーを待っています...'
             }
         case 'LOGOUT':
             return initialState

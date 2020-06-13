@@ -32,8 +32,7 @@ const createRoom = (room) => [
         onGame: false,
         cnt: 0,
         point: 0,
-        points: [],
-        hands: []
+        points: []
     }
 ]
 
@@ -44,16 +43,18 @@ const addPlayer = (id, name, room) => {
     rooms[room].players.push({
         id: id,
         name: name,
+        ready: false,
         hand: 0,
+        butting: false,
         point: 0,
         color: color
     })
 }
 
-const updatePlayer = (id, room, hand) => {
+const updatePlayer = (id, room, data) => {
     rooms[room].players = rooms[room].players.map(player => {
         if (player.id === id) {
-            return {...player, hand}
+            return {...player, [data.key]: data.value}
         } else {
             return player
         }
@@ -61,22 +62,39 @@ const updatePlayer = (id, room, hand) => {
 }
 
 const logout = (id, room) => {
-    rooms[room].players = rooms[room].players.filter(player => player.id !== id)
-    if (rooms[room].length === 0) {
-        delete rooms[room]
+    if (rooms[room]) {
+        rooms[room].players = rooms[room].players.filter(player => player.id !== id)
+        if (rooms[room].players.length === 0) {
+            delete rooms[room]
+        }
     }
 }
 
+const sendHand = (id, room, hand) => {
+    let butting = false
+    rooms[room].players = rooms[room].players.map(h => {
+        if (h.hand === hand) {
+            butting = true
+            return {...h, butting: true}
+        }
+        return h
+    })
+    rooms[room].players = rooms[room].players.map(h => {
+        if (h.id === id) {
+            return {...h, hand, butting}
+        } else {
+            return h
+        }
+    })
+}
+
 const judge = (room) => {
-    let ranking = []
     let message = null
-    const handsNoButting = rooms[room].hands.filter(hand => hand.butting === false)
+    const handsNoButting = rooms[room].players.filter(player => player.butting === false)
     if (handsNoButting.length === 0) {
         console.log('CARRY_OVER')
         message = '全員バッティングのためキャリーオーバーです'
-        rooms[room].players = rooms[room].players.map(player => ({...player, hand: 0}))
         rooms[room].cnt < maxTurn && (rooms[room].point += rooms[room].points.pop())
-        ranking = rooms[room].hands
     } else {
         const hand = handsNoButting.reduce((a,b) => {
             if (rooms[room].point > 0) {
@@ -87,47 +105,28 @@ const judge = (room) => {
         })
         rooms[room].players = rooms[room].players.map(player => {
             if (player.id === hand.id) {
-                message = `${player.name}さんの得点です`
-                return {...player, hand: 0, point: player.point + rooms[room].point}
+                message = `${player.name}さんの得点です！`
+                return {...player, point: player.point + rooms[room].point}
             } else {
-                return {...player, hand: 0}
+                return {...player}
             }
         })
-        ranking = rooms[room].hands.map(h => {
-            if (h.id === hand.id) {
-                return {...h, point: h.point + rooms[room].point}
-            } else {
-                return h
-            }
-        })
-
         rooms[room].cnt < maxTurn && (rooms[room].point = rooms[room].points.pop())
     }
 
-    rooms[room].hands = [...rooms[room].players]
-    return { ranking, message }
-}
-
-const addHand = (id, room, hand) => {
-    let butting = false
-    rooms[room].hands = rooms[room].hands.map(h => {
-        if (h.hand === hand) {
-            butting = true
-            return {...h, butting: true}
-        }
-        return h
-    })
-    rooms[room].hands = rooms[room].hands.map(h => {
-        if (h.id === id) {
-            return {...h, hand, butting}
+    rooms[room].players = rooms[room].players.sort((a, b) => {
+        if (rooms[room.point > 0]) {
+            if (a.hand > b.hand) return -1
+            if (a.hand < b.hand) return 1
+            return 0
         } else {
-            return h
+            if (a.hand > b.hand) return 1
+            if (a.hand < b.hand) return -1
+            return 0
         }
     })
-}
 
-const gameEnd = (room) => {
-    delete rooms[room]
+    return message
 }
 
 const randomSort = ([...array]) => {
@@ -152,8 +151,7 @@ io.on('connection', (socket) => {
         } else if (rooms[room].players.length < maxPlayers) {    
             addPlayer(socket.id, name, room)
             socket.join(room)
-            io.to(socket.id).emit('LOGIN', {players: rooms[room].players, name, room})
-            io.to(room).emit('NOTIFY', {message: `${name}さんが入室しました`})
+            io.to(socket.id).emit('LOGIN', {players: rooms[room].players, message: `ルーム ${room}`,name, room})
             io.to(room).emit('UPDATE', {players: rooms[room].players})
         } else {
             io.to(socket.id).emit('LOGIN_FAILED', {message: '定員オーバーです'})
@@ -162,37 +160,42 @@ io.on('connection', (socket) => {
 
     socket.on('GAME_START', (data) => {
         console.log('GAME_START', data)
-        const room = rooms[data.room]
-        room.onGame = true
-        let points = []
-        for (let i = -5; i <= 10; i++) {
-            if (i === 0) continue
-            points.push(i)
+        updatePlayer(socket.id, data.room, {key: 'ready', value: true})
+        if (rooms[data.room].players.every(player => player.ready === true)) {
+            const room = rooms[data.room]
+            room.onGame = true
+            let points = []
+            for (let i = -5; i <= 10; i++) {
+                if (i === 0) continue
+                points.push(i)
+            }
+            room.points = randomSort(points)
+            room.cnt++
+            room.point = room.points.pop()
+            const message =`${room.point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'}`
+            io.to(data.room).emit('NEXT_TURN', {cnt: room.cnt, message, point: room.point})
         }
-        room.points = randomSort(points)
-        room.cnt++
-        room.hands = [...room.players]
-        room.point = room.points.pop()
-        const message = room.point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'
-        io.to(data.room).emit('NEXT_TURN', {title: `${room.cnt}ターン目`, message, point: room.point})
     })
 
     socket.on('SEND_HAND', (data) => {
         console.log('SEND_HAND', data)
         const {hand, room} = data
-        addHand(socket.id, room, hand)
-        updatePlayer(socket.id, room, hand)
-        io.to(room).emit('UPDATE', {players: rooms[room].players});
+        sendHand(socket.id, room, hand)
         if (rooms[room].players.every(player => player.hand !== 0)) {
             console.log('JUDGE')
-            const { ranking, message } = judge(room)
+            const message = judge(room)
             let lastGame = false
             if (rooms[room].cnt < maxTurn) {
                 rooms[room].cnt++
             } else {
                 lastGame = true
             }
-            io.to(room).emit('JUDGE', {message, lastGame, players: rooms[room].players, ranking})
+            io.to(room).emit('JUDGE', {message, lastGame, players: rooms[room].players})
+            if (lastGame) {
+                delete rooms[room]
+            } else {
+                rooms[room].players = rooms[room].players.map(player => ({...player, hand: 0, batting: false}))
+            }
         }
     })
 
@@ -201,7 +204,7 @@ io.on('connection', (socket) => {
         const {room} = data
         const message = rooms[room].point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'
         io.to(socket.id).emit('NEXT_TURN', {
-            title: `${rooms[room].cnt}ターン目`, 
+            cnt: rooms[room].cnt, 
             message, 
             point: rooms[room].point
         })
@@ -209,22 +212,24 @@ io.on('connection', (socket) => {
 
     socket.on('LOGOUT', (data) => {
         console.log('LOGOUT')
-        const {room, name} = data
+        const {room} = data
         logout(socket.id, room)
         socket.leave(room)
         io.to(socket.id).emit('LOGOUT')
-        socket.broadcast.to(room).emit('NOTIFY', {message: `${name}さんが退出しました`})
-        socket.broadcast.to(room).emit('UPDATE', {players: rooms[room].players})
+        if (rooms[room]) {
+            socket.broadcast.to(room).emit('UPDATE', {players: rooms[room].players})
+        }
     })
 
     socket.on('disconnect', () => {
         console.log('disconnect')
         const room = Object.keys(rooms).find(key =>{
-            return rooms[key].find(player => player.id === socket.id)
+            return rooms[key].players.find(player => player.id === socket.id)
         })
         logout(socket.id, room)
         socket.leave(room)
-        socket.broadcast.to(room).emit('NOTIFY', {message: `${name}さんが退出しました`})
-        socket.broadcast.to(room).emit('UPDATE', {players})
+        if (rooms[room]) {
+            socket.broadcast.to(room).emit('UPDATE', {players: rooms[room].players})
+        }
     })
 })

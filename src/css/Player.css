@@ -1,0 +1,7 @@
+#player {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 10px;
+    padding: 5px;
+}

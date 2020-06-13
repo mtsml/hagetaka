@@ -151,7 +151,7 @@ io.on('connection', (socket) => {
         } else if (rooms[room].players.length < maxPlayers) {    
             addPlayer(socket.id, name, room)
             socket.join(room)
-            io.to(socket.id).emit('LOGIN', {players: rooms[room].players, name, room})
+            io.to(socket.id).emit('LOGIN', {players: rooms[room].players, message: `ルーム ${room}`,name, room})
             io.to(room).emit('UPDATE', {players: rooms[room].players})
         } else {
             io.to(socket.id).emit('LOGIN_FAILED', {message: '定員オーバーです'})
@@ -172,8 +172,8 @@ io.on('connection', (socket) => {
             room.points = randomSort(points)
             room.cnt++
             room.point = room.points.pop()
-            const message =`${room.cnt}ターン目　${room.point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'}`
-            io.to(data.room).emit('NEXT_TURN', {message, point: room.point})
+            const message =`${room.point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'}`
+            io.to(data.room).emit('NEXT_TURN', {cnt: room.cnt, message, point: room.point})
         }
     })
 
@@ -204,7 +204,7 @@ io.on('connection', (socket) => {
         const {room} = data
         const message = rooms[room].point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'
         io.to(socket.id).emit('NEXT_TURN', {
-            title: `${rooms[room].cnt}ターン目`, 
+            cnt: rooms[room].cnt, 
             message, 
             point: rooms[room].point
         })

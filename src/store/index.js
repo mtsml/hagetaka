@@ -11,6 +11,7 @@ const initialState = {
     name: null,
     room: null,
     message: 'ログイン',
+    cnt: 0,
     point: 0,
     players: [],
     proc: proc.login,

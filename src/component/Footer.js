@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Button, MDBCardFooter } from 'mdbreact'
 import { Store } from '../store/index'
 import { proc } from '../util/const'
+import '../css/Footer.css'
 
 const Footer = () => {
     const {state, dispatch} = useContext(Store)
@@ -45,7 +46,7 @@ const Footer = () => {
     }
 
     return (
-        <MDBCardFooter className='fixed-bottom'>
+        <MDBCardFooter id='footer' className='fixed-bottom'>
             {state.proc === proc.login?
                 <Button color='mdb-color' onClick={login}>入室</Button>:
             state.proc === proc.wait?

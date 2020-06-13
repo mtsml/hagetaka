@@ -8,6 +8,7 @@ const reducer = (state, action) => {
                 ...state,
                 login : true,
                 proc: proc.wait,
+                message: action.data.message,
                 name: action.data.name,
                 room: action.data.room
             }
@@ -21,6 +22,7 @@ const reducer = (state, action) => {
                 ...state,
                 proc: proc.input,
                 point: action.data.point,
+                cnt: action.data.cnt,
                 message: action.data.message
             }
         case 'SEND_HAND':

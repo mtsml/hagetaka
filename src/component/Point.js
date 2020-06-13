@@ -1,13 +1,15 @@
 import React from 'react'
-import { Button } from 'mdbreact'
+import { MDBIcon } from 'mdbreact'
 
 const Point = (props) => {
     return (
-        <Button 
-            color={props.color||'primary'}
+        <MDBIcon 
+            className={props.className}
+            icon='dollar-sign'
+            size={props.size}
         >
             {props.point}
-        </Button>
+        </MDBIcon>
     )
 }
 

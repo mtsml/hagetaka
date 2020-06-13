@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react'
 import io from "socket.io-client";
 import { getHost } from '../util/util'
 import reducer from '../reducer/index'
+import { proc } from '../util/const'
 
 const Store = createContext()
 const socket = io(getHost());
@@ -9,10 +10,11 @@ const initialState = {
     socket: socket,
     name: null,
     room: null,
+    message: 'ログイン',
     point: 0,
     players: [],
-    onGame: false,
-    login: false,
+    proc: proc.login,
+    hand: 0,
     hands: [
         {hand: 1, used: false},
         {hand: 2, used: false},

@@ -1,22 +1,47 @@
 import React, { useContext, useEffect } from 'react'
-import App from './App.js'
-import LoginModal from './LoginModal'
+import Body from './Body.js'
+import Footer from './Footer'
+import Header from './Header'
+import Input from './Input'
+import Login from './Login'
 import { Store } from '../store/index'
-
+import { proc } from '../util/const'
 
 const Router = () => {
     const {state, dispatch} = useContext(Store)
 
     const socketOn = () => {
-        state.socket.on('LOGIN', (data) => {console.log('LOGIN');dispatch({ type: 'LOGIN', data})})
-        state.socket.on('LOGOUT', () => {console.log('LOGOUT');dispatch({ type: 'LOGOUT' })})
-        state.socket.on('UPDATE', (data) => {console.log('UPDATE');dispatch({ type: 'UPDATE', data })})
+        state.socket.on('LOGIN', (data) => {
+            console.log('LOGIN')
+            dispatch({ type: 'LOGIN', data})
+        })
+        state.socket.on('LOGOUT', () => {
+            console.log('LOGOUT')
+            dispatch({ type: 'LOGOUT' })
+        })
+        state.socket.on('UPDATE', (data) => {
+            console.log('UPDATE')
+            dispatch({ type: 'SET_STATE', data: {key: 'players', value: data.players}})
+        })
+        state.socket.on('NEXT_TURN', (data) => {
+            console.log('NEXT_TURN')
+            dispatch({ type: 'NEXT_TURN', data})
+        })
+        state.socket.on('JUDGE', (data) => {
+            console.log('JUDGE')
+            dispatch({ type: 'SET_STATE', data: {key: 'players', value: data.players} })
+            dispatch({ type: 'SET_STATE', data: {key: 'message', value: data.message} })
+            dispatch({ type: 'SET_STATE', data: {key: 'proc', value: data.lastGame?proc.end:proc.result} })
+        })
+
     }
 
     const socketOff = () => {
         state.socket.off('LOGIN')
         state.socket.off('LOGOUT')
         state.socket.off('UPDATE')
+        state.socket.off('NEXT_TURN')
+        state.socket.off('JUDGE')
     }
 
     useEffect(() => {
@@ -26,7 +51,15 @@ const Router = () => {
     )
 
     return (
-        state.login?<App />:<LoginModal />
+        <>
+            <Header />
+                {
+                    state.proc===proc.login?<Login />:
+                    state.proc===proc.input?<Input />:
+                    <Body />
+                }
+            <Footer />
+        </>
     )
 }
 

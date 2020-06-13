@@ -16,6 +16,8 @@ const Body = () => {
                         name={player.name}
                         point={player.point}
                         color={player.color}
+                        hand={player.hand}
+                        butting={player.butting}
                     />
                 )
             })}

@@ -8,20 +8,3 @@ export const getHost = () => {
         return localHost + ':' + port
     }
 }
-
-export const login = (state, name, room)  => {
-    state.socket.emit('LOGIN', {name, room})
-}    
-
-export const logout = (state) => {
-    state.socket.emit('LOGOUT', {
-        name: state.name, 
-        room: state.room
-    })
-}
-
-export const startGame = (state) => {
-    state.socket.emit('GAME_START', {
-        room: state.room
-    })
-}

@@ -23,7 +23,6 @@ app.get('/', (req, res) => {
 
 server = app.listen(80, () => {
     console.log('server is running on port 80')
-    process.setuid(1000)
 });
 
 // 同期にしないとまずい
@@ -154,7 +153,6 @@ io.on('connection', (socket) => {
             addPlayer(socket.id, name, room)
             socket.join(room)
             io.to(socket.id).emit('LOGIN', {players: rooms[room].players, name, room})
-            io.to(room).emit('NOTIFY', {message: `${name}さんが入室しました`})
             io.to(room).emit('UPDATE', {players: rooms[room].players})
         } else {
             io.to(socket.id).emit('LOGIN_FAILED', {message: '定員オーバーです'})
@@ -214,7 +212,6 @@ io.on('connection', (socket) => {
         logout(socket.id, room)
         socket.leave(room)
         io.to(socket.id).emit('LOGOUT')
-        socket.broadcast.to(room).emit('NOTIFY', {message: `${name}さんが退出しました`})
         socket.broadcast.to(room).emit('UPDATE', {players: rooms[room].players})
     })
 
@@ -225,7 +222,6 @@ io.on('connection', (socket) => {
         })
         logout(socket.id, room)
         socket.leave(room)
-        socket.broadcast.to(room).emit('NOTIFY', {message: `${name}さんが退出しました`})
         socket.broadcast.to(room).emit('UPDATE', {players})
     })
 })

@@ -67,11 +67,11 @@ const Footer = () => {
     return (
         <MDBCardFooter id='footer' className='fixed-bottom'>
             {state.proc === proc.login?
-                <Button color='mdb-color' disabled={state.name===null||state.room===null} onClick={login}>入室</Button>:
+                <Button color='mdb-color' disabled={isNull(state.name)||isNull(state.room)} onClick={login}>入室</Button>:
             state.proc === proc.wait?
                 <>
                     <Button color='mdb-color' onClick={logout}>退出</Button>
-                    <Button color='mdb-color' disabled={isNull(state.name)||isNull(state.room)} onClick={startGame}>
+                    <Button color='mdb-color' disabled={state.wait} onClick={startGame}>
                         {state.wait&&<MDBIcon icon='spinner' spin/>}
                         ゲーム開始
                     </Button>

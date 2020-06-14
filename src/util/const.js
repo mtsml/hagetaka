@@ -9,3 +9,4 @@ export const proc = {
     result: 40,
     end: 50
 }
+export const MAX_VALUE_LENGTH = 10

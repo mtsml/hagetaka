@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Button, MDBCardFooter, MDBIcon } from 'mdbreact'
 import { Store } from '../store/index'
-import { proc } from '../util/const'
+import { proc, MAX_VALUE_LENGTH } from '../util/const'
 import { isNull } from '../util/util'
 import '../css/Footer.css'
 
@@ -17,7 +17,17 @@ const Footer = () => {
                     value: '名前とルームを入力してください'
                 }
             })
-        } else {
+        } else if (state.name.length > MAX_VALUE_LENGTH || state.room.length > MAX_VALUE_LENGTH) {
+            dispatch({
+                type: 'SET_STATE',
+                data: {
+                    key: 'message',
+                    value: `名前とルームは${MAX_VALUE_LENGTH}以下で入力してください`
+                }
+            })
+        } 
+        
+        else {
             state.socket.emit('LOGIN', {
                 name: state.name, 
                 room: state.room

@@ -16,6 +16,10 @@ const Router = () => {
             console.log('LOGIN')
             dispatch({ type: 'LOGIN', data})
         })
+        state.socket.on('LOGIN_FAILED', (data) => {
+            console.log('LOGIN_FAILED')
+            dispatch({ type: 'SET_STATE', data: {key: 'message', value: data.message}})
+        })
         state.socket.on('LOGOUT', () => {
             console.log('LOGOUT')
             dispatch({ type: 'LOGOUT' })
@@ -35,11 +39,11 @@ const Router = () => {
             dispatch({ type: 'SET_STATE', data: {key: 'proc', value: data.lastGame?proc.end:proc.result} })
             dispatch({ type: 'SET_STATE', data: {key: 'wait', value: false} })
         })
-
     }
 
     const socketOff = () => {
         state.socket.off('LOGIN')
+        state.socket.off('LOGIN_FAILED')
         state.socket.off('LOGOUT')
         state.socket.off('UPDATE')
         state.socket.off('NEXT_TURN')

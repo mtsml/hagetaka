@@ -1,23 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { MDBContainer, MDBInput, MDBRow, MDBCol } from 'mdbreact'
 import { Store } from '../store/index'
 
 const Login = () => {
-    const {state, dispatch} = useContext(Store)
-
-    useEffect(() => {
-        state.socket.on('LOGIN_FAILED', (data) => {
-            dispatch({
-                type: 'SET_STATE',
-                data: {
-                    key: 'message',
-                    value: data.message
-                }
-            })
-        })
-        return () => state.socket.off('LOGIN_FAILED')
-        },[]
-    )
+    const {dispatch} = useContext(Store)
 
     const handleChange = (e) => {
         dispatch({

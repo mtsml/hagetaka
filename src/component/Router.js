@@ -4,6 +4,7 @@ import Footer from './Footer'
 import Header from './Header'
 import Input from './Input'
 import Login from './Login'
+import Modal from './Modal'
 import { Store } from '../store/index'
 import { proc } from '../util/const'
 
@@ -57,6 +58,7 @@ const Router = () => {
                 {
                     state.proc===proc.login?<Login />:
                     state.proc===proc.input?<Input />:
+                    state.proc===proc.end?<><Body /><Modal /></>:
                     <Body />
                 }
             <Footer />

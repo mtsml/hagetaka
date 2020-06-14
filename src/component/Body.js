@@ -3,7 +3,6 @@ import { MDBContainer, MDBRow, MDBCol, MDBListGroup } from 'mdbreact'
 import { Store } from '../store/index'
 import Player from './Player.js'
 
-
 const Body = () => {
     const {state} = useContext(Store)
 
@@ -28,7 +27,7 @@ const Body = () => {
                 </MDBCol>
             </MDBRow>
         </MDBContainer>
-    )    
+    )
 }
 
 export default Body

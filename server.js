@@ -47,7 +47,8 @@ const addPlayer = (id, name, room) => {
         hand: 0,
         butting: false,
         point: 0,
-        color: color
+        color: color,
+        rank: 0
     })
 }
 
@@ -114,8 +115,24 @@ const judge = (room) => {
         rooms[room].cnt < maxTurn && (rooms[room].point = rooms[room].points.pop())
     }
 
-    rooms[room].players = rooms[room].players.sort((a, b) => {
-        if (rooms[room.point > 0]) {
+    rooms[room].players.sort((a,b) => {
+        if (a.point > b.point) return -1
+        if (a.point < b.point) return 1
+        return 0
+    })
+
+    let rank = 0
+    let point = null
+    rooms[room].players = rooms[room].players.map(player => {
+        if (point===null||point!==player.point) {
+            point = player.point
+            rank++
+        }
+        return {...player, rank}
+    })
+
+    rooms[room].players.sort((a, b) => {
+        if (rooms[room].point > 0) {
             if (a.hand > b.hand) return -1
             if (a.hand < b.hand) return 1
             return 0

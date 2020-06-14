@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { MDBContainer, MDBInput } from 'mdbreact'
+import { MDBContainer, MDBInput, MDBRow, MDBCol } from 'mdbreact'
 import { Store } from '../store/index'
 
 const Login = () => {
@@ -31,8 +31,12 @@ const Login = () => {
 
     return (
         <MDBContainer>
-            <MDBInput id='name' label="name" icon='user' onChange={(e) => handleChange(e)} />
-            <MDBInput id='room' label="room" icon='users' onChange={(e) => handleChange(e)} />
+            <MDBRow center>
+                <MDBCol md='6'>
+                    <MDBInput id='name' label="name" icon='user' onChange={(e) => handleChange(e)} />
+                    <MDBInput id='room' label="room" icon='users' onChange={(e) => handleChange(e)} />
+                </MDBCol>
+            </MDBRow>
         </MDBContainer>
     )    
 }

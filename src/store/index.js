@@ -11,7 +11,7 @@ const initialState = {
     name: null,
     room: null,
     wait: false,
-    message: 'ログイン',
+    message: 'Welcome to Hagetaka!',
     cnt: 0,
     point: 0,
     players: [],

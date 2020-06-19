@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import { MDBContainer, MDBInput, MDBRow, MDBCol } from 'mdbreact'
+import { Button, MDBContainer, MDBInput, MDBRow, MDBCol } from 'mdbreact'
 import { Store } from '../store/index'
+import '../css/Login.css'
 
 const Login = () => {
-    const {dispatch} = useContext(Store)
+    const {state, dispatch} = useContext(Store)
 
     const handleChange = (e) => {
         dispatch({
@@ -16,14 +17,15 @@ const Login = () => {
     } 
 
     return (
-        <MDBContainer>
-            <MDBRow center>
-                <MDBCol md='6'>
-                    <MDBInput id='name' label="name" icon='user' onChange={(e) => handleChange(e)} />
-                    <MDBInput id='room' label="room" icon='users' onChange={(e) => handleChange(e)} />
-                </MDBCol>
-            </MDBRow>
-        </MDBContainer>
+        <div id='container'>
+            <div id='wrapper'>
+                <img id='logo' src='./favicon.ico' width="100px" height="100px"/>
+                <h1 id='message'>{state.message}</h1>
+                <MDBInput id='input' label="name" onChange={(e) => handleChange(e)} />
+                <MDBInput id='input' label="room" onChange={(e) => handleChange(e)} />
+                <Button id='submit' color='mdb-color'>入室</Button>
+            </div>
+        </div>
     )    
 }
 

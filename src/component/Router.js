@@ -58,14 +58,15 @@ const Router = () => {
 
     return (
         <>
-            <Header />
-                {
-                    state.proc===proc.login?<Login />:
-                    state.proc===proc.input?<Input />:
-                    state.proc===proc.end?<><Body /><Modal /></>:
-                    <Body />
-                }
-            <Footer />
+            {
+                state.proc===proc.login?<Login />:
+                <>
+                    <Header />
+                        {state.proc===proc.input?<Input />:
+                        state.proc===proc.end?<><Body /><Modal /></>:<Body />}
+                    <Footer />
+                </>
+            }
         </>
     )
 }

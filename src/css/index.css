@@ -1,0 +1,39 @@
+.hcontents {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+}
+
+/* MDBInputを使うと付与される.md-formを打ち消す */
+.hcontents .md-form {
+    margin: 0;
+}
+
+.hcontents img {
+    width: 100px;
+    height: 100px;
+    border-radius: 40%;
+}
+
+.hcontents h1 {
+    color: #4A4A4A;
+    margin: 16px 0px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Helvetica Neue";
+}
+
+.hbtn {
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+}
+
+.hinput {
+    width: 300px;
+    max-width: 300px;
+    min-width: 300px;
+}

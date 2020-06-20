@@ -10,3 +10,4 @@ export const proc = {
     end: 50
 }
 export const MAX_VALUE_LENGTH = 10
+export const THEME_COLOR = 'mdb-color'

@@ -8,9 +8,15 @@ const Header = () => {
 
     return (
         <header>
+            {
+                onGame(state.proc)&&
+                    <div className='hrow'>
+                        <span className='message'>ターン{state.cnt}</span>
+                        <Point point={state.point}/>
+                    </div>
+            }
             <div className='hrow'>
-                <h1 className='message'>{onGame(state.proc)&&`ターン${state.cnt}:`}{state.message}</h1>
-                {onGame(state.proc)&&<Point point={state.point}/>}
+                <h1 className='message'>{state.message}</h1>
             </div>
         </header>
     )    

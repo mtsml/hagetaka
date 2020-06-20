@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from 'react'
 import io from "socket.io-client";
 import { getHost } from '../util/util'
 import reducer from '../reducer/index'
-import { proc } from '../util/const'
+import { PROC } from '../util/const'
 
 const Store = createContext()
 const socket = io(getHost());
@@ -15,7 +15,7 @@ const initialState = {
     cnt: 0,
     point: 0,
     players: [],
-    proc: proc.login,
+    proc: PROC.LOGIN,
     hand: 0,
     hands: [
         {hand: 1, used: false},

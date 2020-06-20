@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { MDBIcon } from 'mdbreact'
 import Button from '../component/Button'
 import { Store } from '../store/index'
-import { proc } from '../util/const'
+import { PROC } from '../util/const'
 
 const Footer = () => {
     const {state, dispatch} = useContext(Store)
@@ -50,25 +50,25 @@ const Footer = () => {
         <footer className='fixed-bottom mb-2'>
             <div className='hrow'>
                 {
-                    state.proc === proc.wait?
+                    state.proc===PROC.WAIT?
                         <>
                             <Button onClick={logout}>ログアウト</Button>
                             <Button disabled={state.wait} onClick={startGame}>
-                                {state.wait&&<MDBIcon icon='spinner'  className='mr-2' spin/>}
+                                {state.wait&&<MDBIcon icon='spinner' className='mr-2' spin/>}
                                 スタート
                             </Button>
                         </>
                     :
-                    state.proc === proc.input?
+                    state.proc===PROC.INPUT?
                         <Button disabled={state.wait||state.hand===0} onClick={sendHand}>
                             {state.wait&&<MDBIcon icon='spinner' className='mr-2' spin/>}
                             確定
                         </Button>
                     :
-                    state.proc === proc.result?
+                    state.proc===PROC.JUDGE?
                         <Button onClick={nextTurn}>次へ</Button>
                     :
-                    state.proc === proc.end?
+                    state.proc===PROC.RESULT?
                         <Button onClick={endGame}>ゲーム終了</Button>
                     :
                         <React.Fragment/>

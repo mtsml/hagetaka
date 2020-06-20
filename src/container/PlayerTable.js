@@ -3,7 +3,7 @@ import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact'
 import { Store } from '../store/index'
 import { onGame } from '../util/util'
 
-const Table = () => {
+const PlayerTable = () => {
     const {state} = useContext(Store)
     const _onGame = onGame(state.proc)
 
@@ -47,4 +47,4 @@ const Table = () => {
     )
 }
 
-export default Table
+export default PlayerTable

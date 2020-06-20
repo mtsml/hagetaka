@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react'
-import Table from './Table.js'
 import Footer from './Footer'
-import Header from './Header'
 import HandBox from './HandBox'
+import Header from './Header'
 import Login from './Login'
-import Modal from './Modal'
+import PlayerTable from './PlayerTable.js'
+import ResultModal from './ResultModal'
 import { Store } from '../store/index'
-import { proc } from '../util/const'
+import { PROC } from '../util/const'
 
 const Router = () => {
     const {state, dispatch} = useContext(Store)
@@ -37,7 +37,7 @@ const Router = () => {
             dispatch({ type: 'SET_STATE', data: {key: 'players', value: data.players} })
             dispatch({ type: 'SET_STATE', data: {key: 'id', value: data.id} })
             dispatch({ type: 'SET_STATE', data: {key: 'message', value: data.message} })
-            dispatch({ type: 'SET_STATE', data: {key: 'proc', value: data.lastGame?proc.end:proc.result} })
+            dispatch({ type: 'SET_STATE', data: {key: 'proc', value: data.lastGame?PROC.RESULT:PROC.JUDGE} })
             dispatch({ type: 'SET_STATE', data: {key: 'wait', value: false} })
         })
     }
@@ -59,19 +59,18 @@ const Router = () => {
 
     return (
         <>
-            {
-                state.proc===proc.login?
-                    <Login />:
-                    <>
-                        <Header />
-                            {state.proc===proc.input?
-                                <HandBox />:
-                                state.proc===proc.end?
-                                    <><Table /><Modal /></>:
-                                    <Table />
-                            }
-                        <Footer />
-                    </>
+            {state.proc===PROC.LOGIN?
+                <Login />:
+                <>
+                    <Header />
+                        {state.proc===PROC.INPUT?
+                            <HandBox />:
+                            state.proc===PROC.RESULT?
+                                <><PlayerTable /><ResultModal /></>:
+                                <PlayerTable />
+                        }
+                    <Footer />
+                </>
             }
         </>
     )

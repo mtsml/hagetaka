@@ -1,5 +1,5 @@
 import { initialState } from '../store/index'
-import { proc } from '../util/const'
+import { PROC } from '../util/const'
 
 const reducer = (state, action) => {
     switch(action.type) {
@@ -7,7 +7,7 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 login : true,
-                proc: proc.wait,
+                proc: PROC.WAIT,
                 players: action.data.players,
                 message: action.data.message,
                 name: action.data.name,
@@ -21,7 +21,7 @@ const reducer = (state, action) => {
         case 'NEXT_TURN':
             return {
                 ...state,
-                proc: proc.input,
+                proc: PROC.INPUT,
                 point: action.data.point,
                 cnt: action.data.cnt,
                 message: action.data.message,

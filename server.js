@@ -5,15 +5,6 @@ const socket = require('socket.io')
 const app = express();
 const maxTurn = 3
 const maxPlayers = 6
-const colors = [
-    'primary',
-    "secondary", 
-    "success", 
-    "warning", 
-    "danger", 
-    "info"
-]
-
 let rooms = {}
 
 app.use(express.static(path.join(__dirname, 'build')));
@@ -37,9 +28,6 @@ const createRoom = (room) => [
 ]
 
 const addPlayer = (id, name, room) => {
-    const color = colors.find(color => {
-        return !rooms[room].players.some(player => player.color === color)
-    })
     rooms[room].players.push({
         id: id,
         name: name,
@@ -47,7 +35,6 @@ const addPlayer = (id, name, room) => {
         hand: 0,
         butting: false,
         point: 0,
-        color: color,
         rank: 0
     })
 }
@@ -92,11 +79,11 @@ const sendHand = (id, room, hand) => {
 const judge = (room) => {
     let message = null
     let id = ''
+
     const handsNoButting = rooms[room].players.filter(player => player.butting === false)
     if (handsNoButting.length === 0) {
         console.log('CARRY_OVER')
         message = '全員バッティングのためキャリーオーバーです'
-        rooms[room].cnt < maxTurn && (rooms[room].point += rooms[room].points.pop())
     } else {
         const hand = handsNoButting.reduce((a,b) => {
             if (rooms[room].point > 0) {
@@ -114,7 +101,6 @@ const judge = (room) => {
                 return {...player}
             }
         })
-        rooms[room].cnt < maxTurn && (rooms[room].point = rooms[room].points.pop())
     }
 
     rooms[room].players.sort((a,b) => {
@@ -145,6 +131,10 @@ const judge = (room) => {
         }
     })
 
+    rooms[room].cnt < maxTurn && handsNoButting.length===0 ? 
+        rooms[room].point += rooms[room].points.pop():
+        rooms[room].point = rooms[room].points.pop()
+
     return {message, id}
 }
 
@@ -172,7 +162,7 @@ io.on('connection', (socket) => {
         } else if (rooms[room].players.length < maxPlayers) {    
             addPlayer(socket.id, name, room)
             socket.join(room)
-            io.to(socket.id).emit('LOGIN', {players: rooms[room].players, message: `ルーム:${room}`,name, room})
+            io.to(socket.id).emit('LOGIN', {players: rooms[room].players, message: room ,name, room})
             socket.broadcast.to(room).emit('UPDATE', {players: rooms[room].players})
         } else {
             io.to(socket.id).emit('LOGIN_FAILED', {message: '定員オーバーです'})
@@ -193,7 +183,7 @@ io.on('connection', (socket) => {
             room.points = randomSort(points)
             room.cnt++
             room.point = room.points.pop()
-            const message =`${room.point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'}`
+            const message =`${room.point > 0 ? '大きい数字で得点' : '小さい数字で得点'}`
             io.to(data.room).emit('NEXT_TURN', {cnt: room.cnt, message, point: room.point})
         }
     })

@@ -173,7 +173,7 @@ io.on('connection', (socket) => {
             addPlayer(socket.id, name, room)
             socket.join(room)
             io.to(socket.id).emit('LOGIN', {players: rooms[room].players, message: `ルーム:${room}`,name, room})
-            io.to(room).emit('UPDATE', {players: rooms[room].players})
+            socket.broadcast.to(room).emit('UPDATE', {players: rooms[room].players})
         } else {
             io.to(socket.id).emit('LOGIN_FAILED', {message: '定員オーバーです'})
         }

@@ -1,31 +1,10 @@
+/* 共通 */
 * {
     font-family: "Helvetica Neue";
 }
 
-.hcontents {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 90vh;
-}
 
-/* MDBInputを使うと付与される.md-formを打ち消す */
-.hcontents .md-form {
-    margin: 0;
-}
-
-.hcontents img {
-    width: 100px;
-    height: 100px;
-    border-radius: 40%;
-}
-
-.hcontents h1 {
-    margin: 16px 0px;
-}
-
+/* component */
 .hbtn {
     width: 300px;
     max-width: 300px;
@@ -42,25 +21,52 @@
     justify-content: center;
 }
 
+.message {
+    color: #4A4A4A;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.hand {
+    font-size: 16px;
+    padding: 10px;
+    max-width: 80px;
+}
+
+
+/* ログイン画面 */
+.hlogin {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+}
+
+.hlogin h1 {
+    margin: 16px 0px;
+}
+
+.hlogin img {
+    width: 100px;
+    height: 100px;
+    border-radius: 40%;
+}    
+
+.hlogin .md-form {
+    margin: 0; /* MDBInputを使うと付与される.md-formを打ち消す */
+}
+
+
+/* ヘッダー */
 header {
     margin: 10px;
 }
 
 header .hrow {
     align-items: baseline;
-}
-
-footer .hrow > * {
-    flex: auto;
-    width: 50%;
-    max-width: 200px;
-}
-
-.message {
-    color: #4A4A4A;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 0;
 }
 
 .point {
@@ -70,19 +76,28 @@ footer .hrow > * {
     font-weight: bold;
 }
 
-.player {
-    width: 400px;
-    max-width: 400px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px 10px 0px 10px;
-    padding: 5px;
+
+/* フッター */
+footer .hrow > * {
+    flex: auto;
+    width: 50%;
+    max-width: 200px;
 }
 
-.htable {
+
+/* テーブル */
+.htable *{
     max-width: 400px;
     margin: 0 auto;
+    font-weight: normal;
+}
+
+.htable th {
+    font-size: 18px;
+}
+
+.htable td {
+    font-size: 16px;
 }
 
 .winner td{
@@ -99,4 +114,13 @@ footer .hrow > * {
 
 .butting {
     background-color: rgba(0,0,0,0.05);
+}
+
+
+/* 手札 */
+.handbox {
+    display: grid;
+    max-width: 400px;
+    margin: 0 auto;
+    grid-template-columns: repeat(5, 1fr);
 }

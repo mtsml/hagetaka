@@ -5,6 +5,7 @@ import { onGame } from '../util/util'
 
 const Body = () => {
     const {state} = useContext(Store)
+    const _onGame = onGame(state.proc)
 
     return (
         <div className='htable'>
@@ -18,13 +19,25 @@ const Body = () => {
                     </tr>
                 </MDBTableHead>
                 <MDBTableBody>
-                    {state.players.map((player, idx) => {
+                    {state.players.map((player) => {
                         return (
-                            <tr className={onGame(state.proc)?player.butting?'butting':player.id===state.id?state.point>0?'winner':'loser':'':''}>
-                                <td>{player.rank}</td>
+                            <tr 
+                                className={
+                                    _onGame?
+                                        player.butting?
+                                            'butting':
+                                            player.id===state.id?
+                                                state.point>0?
+                                                    'winner':
+                                                    'loser'
+                                                :''
+                                        :''
+                                }
+                            >
+                                <td>{_onGame?player.rank:'―'}</td>
                                 <td>{player.name}</td>
-                                <td>{player.point}</td>
-                                <td>{player.hand}</td>
+                                <td>{_onGame?player.point:'―'}</td>
+                                <td>{_onGame?player.hand:'―'}</td>
                             </tr>
                         )
                     })}

@@ -8,6 +8,7 @@ const reducer = (state, action) => {
                 ...state,
                 login : true,
                 proc: proc.wait,
+                players: action.data.players,
                 message: action.data.message,
                 name: action.data.name,
                 room: action.data.room

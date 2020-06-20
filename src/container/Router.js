@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import Body from './Body.js'
 import Footer from './Footer'
 import Header from './Header'
-import Input from './Input'
+import HandBox from './HandBox'
 import Login from './Login'
 import Modal from './Modal'
 import { Store } from '../store/index'
@@ -60,13 +60,18 @@ const Router = () => {
     return (
         <>
             {
-                state.proc===proc.login?<Login />:
-                <>
-                    <Header />
-                        {state.proc===proc.input?<Input />:
-                        state.proc===proc.end?<><Body /><Modal /></>:<Body />}
-                    <Footer />
-                </>
+                state.proc===proc.login?
+                    <Login />:
+                    <>
+                        <Header />
+                            {state.proc===proc.input?
+                                <HandBox />:
+                                state.proc===proc.end?
+                                    <><Body /><Modal /></>:
+                                    <Body />
+                            }
+                        <Footer />
+                    </>
             }
         </>
     )

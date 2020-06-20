@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import { Store } from '../store/index'
-import { isNull } from '../util/util'
 import Button from '../component/Button'
 import Input from '../component/Input'
+import { Store } from '../store/index'
+import { isNull } from '../util/util'
 import { MAX_VALUE_LENGTH } from '../util/const'
+import logo from '../media/logo.png'
 
 const Login = () => {
     const {state, dispatch} = useContext(Store)
@@ -27,8 +28,9 @@ const Login = () => {
                     value: '名前とルームを入力してください'
                 }
             })
-        } else if (state.name.length > MAX_VALUE_LENGTH || state.room.length > MAX_VALUE_LENGTH) {
-            dispatch({
+        }
+        if (state.name.length > MAX_VALUE_LENGTH || state.room.length > MAX_VALUE_LENGTH) {
+            return dispatch({
                 type: 'SET_STATE',
                 data: {
                     key: 'message',
@@ -36,18 +38,15 @@ const Login = () => {
                 }
             })
         } 
-        
-        else {
-            state.socket.emit('LOGIN', {
-                name: state.name, 
-                room: state.room
-            })
-        }
+        state.socket.emit('LOGIN', {
+            name: state.name, 
+            room: state.room
+        })
     }        
     
     return (
-        <div className='hcontents'>
-            <img src='./favicon.ico'/>
+        <div className='hlogin'>
+            <img src={logo}/>
             <h1 className='message'>{state.message}</h1>
             <Input id='name' label="name" onChange={(e) => handleChange(e)} />
             <Input id='room' label="room" onChange={(e) => handleChange(e)} />

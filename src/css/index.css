@@ -42,6 +42,10 @@
     justify-content: center;
 }
 
+header .hrow {
+    align-items: baseline;
+}
+
 footer .hrow > * {
     flex: auto;
     width: 50%;
@@ -52,5 +56,11 @@ footer .hrow > * {
     color: #4A4A4A;
     margin: 16px 0px;
     font-size: 24px;
+    font-weight: bold;
+}
+
+.point {
+    margin-left: 10px;
+    font-size: 35px;
     font-weight: bold;
 }

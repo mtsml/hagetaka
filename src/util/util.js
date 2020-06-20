@@ -1,4 +1,4 @@
-import { localHost, host, port } from './const'
+import { localHost, host, port, proc } from './const'
 
 export const getHost = () => {
     if (process.env.NODE_ENV === 'production') {
@@ -9,10 +9,15 @@ export const getHost = () => {
 }
 
 export const isNull = (value) => {
-    console.log(value)
     if (value === null || value === undefined || value === '') {
         return true
-    } else {
-        return false
+    } 
+    return false
+}
+
+export const onGame = (_proc) => {
+    if (_proc === proc.input || _proc === proc.result || _proc === proc.end) {
+        return true
     }
+    return false
 }

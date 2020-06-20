@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import Body from './Body.js'
+import Table from './Table.js'
 import Footer from './Footer'
 import Header from './Header'
 import HandBox from './HandBox'
@@ -67,8 +67,8 @@ const Router = () => {
                             {state.proc===proc.input?
                                 <HandBox />:
                                 state.proc===proc.end?
-                                    <><Body /><Modal /></>:
-                                    <Body />
+                                    <><Table /><Modal /></>:
+                                    <Table />
                             }
                         <Footer />
                     </>

@@ -91,6 +91,7 @@ const sendHand = (id, room, hand) => {
 
 const judge = (room) => {
     let message = null
+    let id = ''
     const handsNoButting = rooms[room].players.filter(player => player.butting === false)
     if (handsNoButting.length === 0) {
         console.log('CARRY_OVER')
@@ -107,6 +108,7 @@ const judge = (room) => {
         rooms[room].players = rooms[room].players.map(player => {
             if (player.id === hand.id) {
                 message = `${player.name}さんの得点です！`
+                id = player.id
                 return {...player, point: player.point + rooms[room].point}
             } else {
                 return {...player}
@@ -143,7 +145,7 @@ const judge = (room) => {
         }
     })
 
-    return message
+    return {message, id}
 }
 
 const randomSort = ([...array]) => {
@@ -170,7 +172,7 @@ io.on('connection', (socket) => {
         } else if (rooms[room].players.length < maxPlayers) {    
             addPlayer(socket.id, name, room)
             socket.join(room)
-            io.to(socket.id).emit('LOGIN', {players: rooms[room].players, message: `ルーム ${room}`,name, room})
+            io.to(socket.id).emit('LOGIN', {players: rooms[room].players, message: `ルーム:${room}`,name, room})
             io.to(room).emit('UPDATE', {players: rooms[room].players})
         } else {
             io.to(socket.id).emit('LOGIN_FAILED', {message: '定員オーバーです'})
@@ -202,14 +204,14 @@ io.on('connection', (socket) => {
         sendHand(socket.id, room, hand)
         if (rooms[room].players.every(player => player.hand !== 0)) {
             console.log('JUDGE')
-            const message = judge(room)
+            const {message, id} = judge(room)
             let lastGame = false
             if (rooms[room].cnt < maxTurn) {
                 rooms[room].cnt++
             } else {
                 lastGame = true
             }
-            io.to(room).emit('JUDGE', {message, lastGame, players: rooms[room].players})
+            io.to(room).emit('JUDGE', {message, lastGame, players: rooms[room].players, id})
             if (lastGame) {
                 delete rooms[room]
             } else {

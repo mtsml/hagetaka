@@ -33,7 +33,8 @@ const initialState = {
         {hand: 13, used: false},
         {hand: 14, used: false},
         {hand: 15, used: false}        
-    ]
+    ],
+    id: null
 }
 
 const Provider = ({children}) => {

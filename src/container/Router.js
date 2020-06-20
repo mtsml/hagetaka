@@ -33,8 +33,9 @@ const Router = () => {
             dispatch({ type: 'NEXT_TURN', data})
         })
         state.socket.on('JUDGE', (data) => {
-            console.log('JUDGE')
+            console.log('JUDGE', data, state)
             dispatch({ type: 'SET_STATE', data: {key: 'players', value: data.players} })
+            dispatch({ type: 'SET_STATE', data: {key: 'id', value: data.id} })
             dispatch({ type: 'SET_STATE', data: {key: 'message', value: data.message} })
             dispatch({ type: 'SET_STATE', data: {key: 'proc', value: data.lastGame?proc.end:proc.result} })
             dispatch({ type: 'SET_STATE', data: {key: 'wait', value: false} })

@@ -1,32 +1,37 @@
 import React, { useContext } from 'react'
-import { MDBContainer, MDBRow, MDBCol, MDBListGroup } from 'mdbreact'
+import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact'
 import { Store } from '../store/index'
-import Player from './Player.js'
+import { onGame } from '../util/util'
+import { proc } from '../util/const'
 
 const Body = () => {
     const {state} = useContext(Store)
 
     return (
-        <MDBContainer>
-            <MDBRow center>
-                <MDBCol md='6' className='px-0'>
-                    <MDBListGroup>
-                        {state.players.map((player, idx) => {
-                            return (
-                                <Player
-                                    key={idx}
-                                    name={player.name}
-                                    point={player.point}
-                                    color={player.color}
-                                    hand={player.hand}
-                                    butting={player.butting}
-                                />
-                                )
-                            })}
-                    </MDBListGroup>
-                </MDBCol>
-            </MDBRow>
-        </MDBContainer>
+        <div className='htable'>
+            <MDBTable>
+                <MDBTableHead>
+                    <tr>
+                        <th>rank</th>
+                        <th>name</th>
+                        <th>point</th>
+                        <th>hand</th>
+                    </tr>
+                </MDBTableHead>
+                <MDBTableBody>
+                    {state.players.map((player, idx) => {
+                        return (
+                            <tr className={onGame(state.proc)?player.butting?'butting':player.id===state.id?state.point>0?'winner':'loser':'':''}>
+                                <td>{player.rank}</td>
+                                <td>{player.name}</td>
+                                <td>{player.point}</td>
+                                <td>{player.hand}</td>
+                            </tr>
+                        )
+                    })}
+                </MDBTableBody>
+            </MDBTable>
+        </div>
     )
 }
 

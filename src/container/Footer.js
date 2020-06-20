@@ -54,14 +54,14 @@ const Footer = () => {
                         <>
                             <Button onClick={logout}>ログアウト</Button>
                             <Button disabled={state.wait} onClick={startGame}>
-                                {state.wait&&<MDBIcon icon='spinner' spin/>}
+                                {state.wait&&<MDBIcon icon='spinner'  className='mr-2' spin/>}
                                 スタート
                             </Button>
                         </>
                     :
                     state.proc === proc.input?
                         <Button disabled={state.wait||state.hand===0} onClick={sendHand}>
-                            {state.wait&&<MDBIcon icon='spinner' spin/>}
+                            {state.wait&&<MDBIcon icon='spinner' className='mr-2' spin/>}
                             確定
                         </Button>
                     :

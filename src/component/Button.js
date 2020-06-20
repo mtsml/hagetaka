@@ -5,6 +5,7 @@ import { THEME_COLOR } from '../util/const'
 const Button = (props) => {
     return (
         <MDBBtn 
+            disabled={props.disabled}
             className='mt-2 hbtn'
             color={props.color||THEME_COLOR}
             onClick={props.onClick}

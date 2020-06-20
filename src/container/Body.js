@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact'
 import { Store } from '../store/index'
 import { onGame } from '../util/util'
-import { proc } from '../util/const'
 
 const Body = () => {
     const {state} = useContext(Store)

@@ -1,3 +1,7 @@
+* {
+    font-family: "Helvetica Neue";
+}
+
 .hcontents {
     text-align: center;
     display: flex;
@@ -19,21 +23,34 @@
 }
 
 .hcontents h1 {
-    color: #4A4A4A;
     margin: 16px 0px;
-    font-size: 24px;
-    font-weight: bold;
-    font-family: "Helvetica Neue";
 }
 
 .hbtn {
     width: 300px;
     max-width: 300px;
-    min-width: 300px;
+    border-radius: 15px;
 }
 
 .hinput {
     width: 300px;
     max-width: 300px;
-    min-width: 300px;
+}
+
+.hrow {
+    display: flex;
+    justify-content: center;
+}
+
+footer .hrow > * {
+    flex: auto;
+    width: 50%;
+    max-width: 200px;
+}
+
+.message {
+    color: #4A4A4A;
+    margin: 16px 0px;
+    font-size: 24px;
+    font-weight: bold;
 }

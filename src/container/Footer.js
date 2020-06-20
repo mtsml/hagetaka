@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
-import { Button, MDBCardFooter, MDBIcon } from 'mdbreact'
+import { MDBIcon } from 'mdbreact'
+import Button from '../component/Button'
 import { Store } from '../store/index'
-import { proc, MAX_VALUE_LENGTH } from '../util/const'
-import { isNull } from '../util/util'
-import '../css/Footer.css'
+import { proc } from '../util/const'
 
 const Footer = () => {
     const {state, dispatch} = useContext(Store)
@@ -48,27 +47,34 @@ const Footer = () => {
     }
 
     return (
-        <MDBCardFooter id='footer' className='fixed-bottom'>
-            {state.proc === proc.wait?
-                <>
-                    <Button color='mdb-color' onClick={logout}>退出</Button>
-                    <Button color='mdb-color' disabled={state.wait} onClick={startGame}>
-                        {state.wait&&<MDBIcon icon='spinner' spin/>}
-                        ゲーム開始
-                    </Button>
-                </>:
-            state.proc === proc.input?
-                <Button color='mdb-color' disabled={state.wait||state.hand===0} onClick={sendHand}>
-                    {state.wait&&<MDBIcon icon='spinner' spin/>}
-                    確定
-                </Button>:
-            state.proc === proc.result?
-                <Button color='mdb-color' onClick={nextTurn}>次へ</Button>:
-            state.proc === proc.end?
-                <Button color='mdb-color' onClick={endGame}>ゲーム終了</Button>:
-                <React.Fragment/>
-            }
-        </MDBCardFooter>
+        <footer className='fixed-bottom mb-2'>
+            <div className='hrow'>
+                {
+                    state.proc === proc.wait?
+                        <>
+                            <Button onClick={logout}>ログアウト</Button>
+                            <Button disabled={state.wait} onClick={startGame}>
+                                {state.wait&&<MDBIcon icon='spinner' spin/>}
+                                スタート
+                            </Button>
+                        </>
+                    :
+                    state.proc === proc.input?
+                        <Button disabled={state.wait||state.hand===0} onClick={sendHand}>
+                            {state.wait&&<MDBIcon icon='spinner' spin/>}
+                            確定
+                        </Button>
+                    :
+                    state.proc === proc.result?
+                        <Button onClick={nextTurn}>次へ</Button>
+                    :
+                    state.proc === proc.end?
+                        <Button onClick={endGame}>ゲーム終了</Button>
+                    :
+                        <React.Fragment/>
+                }
+            </div>
+        </footer>
     )
 }
 

@@ -48,7 +48,7 @@ const Login = () => {
     return (
         <div className='hcontents'>
             <img src='./favicon.ico'/>
-            <h1>{state.message}</h1>
+            <h1 className='message'>{state.message}</h1>
             <Input id='name' label="name" onChange={(e) => handleChange(e)} />
             <Input id='room' label="room" onChange={(e) => handleChange(e)} />
             <Button onClick={login}>ログイン</Button>

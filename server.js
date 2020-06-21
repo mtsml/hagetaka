@@ -3,7 +3,7 @@ const path = require('path')
 const socket = require('socket.io')
 
 const app = express();
-const maxTurn = 1
+const maxTurn = 15
 const maxPlayers = 6
 let rooms = {}
 

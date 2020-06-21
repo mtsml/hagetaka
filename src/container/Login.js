@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import Button from '../component/Button'
 import Input from '../component/Input'
+import ShareButtons from './ShareButtons'
 import { Store } from '../store/index'
 import { isNull } from '../util/util'
-import { MAX_VALUE_LENGTH } from '../util/const'
+import { MAX_VALUE_LENGTH, MSG_INVITATION, URL } from '../util/const'
 import logo from '../media/logo.png'
 
 const Login = () => {
@@ -51,6 +52,7 @@ const Login = () => {
             <Input id='name' label="name" onChange={(e) => handleChange(e)} />
             <Input id='room' label="room" onChange={(e) => handleChange(e)} />
             <Button onClick={login}>ログイン</Button>
+            <ShareButtons url={URL} title={MSG_INVITATION}/>
         </div>
     )
 }

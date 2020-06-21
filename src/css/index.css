@@ -154,3 +154,14 @@ footer .hrow > * {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+
+/* シェアボタン */
+.share {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.share > * {
+    margin: 5px;
+}

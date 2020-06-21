@@ -10,3 +10,6 @@ export const PROC = {
 }
 export const MAX_VALUE_LENGTH = 10
 export const THEME_COLOR = 'mdb-color'
+export const URL = 'http://hoge.hagetaka.art/'
+export const MSG_INVITATION = '一緒にHagetakaで遊ぼう！'
+export const MSG_SHARE = '結果をシェアしよう'

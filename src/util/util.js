@@ -24,7 +24,7 @@ export const onGame = (proc) => {
 
 export const getResultMessage = (state) => {
     const player = state.players.find(player => player.id === state.socket.id)
-    return `あなたは${player.point}P獲得で${player.rank}位でした${player.rank<4?'！':'…'}`
+    return `${player.point}P獲得で${player.rank}位でした${player.rank<4?'！':'…'}`
 }
 
 export const getRank = (state) => {

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { MDBIcon } from 'mdbreact'
 import Button from '../component/Button'
 import { Store } from '../store/index'
-import { PROC } from '../util/const'
+import { PROC, MSG_WAIT } from '../util/const'
 
 const Footer = () => {
     const {state, dispatch} = useContext(Store)
@@ -21,7 +21,7 @@ const Footer = () => {
         }})
         dispatch({type: 'SET_STATE', data: {
             key: 'message',
-            value: '他のプレイヤーを待っています...'
+            value: MSG_WAIT
         }})
         state.socket.emit('GAME_START', {
             room: state.room

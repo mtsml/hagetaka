@@ -1,5 +1,5 @@
 import { initialState } from '../store/index'
-import { PROC } from '../util/const'
+import { PROC, MSG_WAIT } from '../util/const'
 
 const reducer = (state, action) => {
     switch(action.type) {
@@ -40,7 +40,7 @@ const reducer = (state, action) => {
                 hand: 0,
                 hands: hands,
                 wait: true,
-                message: '他のプレイヤーを待っています...'
+                message: MSG_WAIT
             }
         case 'LOGOUT':
             return initialState

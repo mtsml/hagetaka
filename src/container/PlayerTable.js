@@ -11,7 +11,7 @@ const PlayerTable = () => {
 
     return (
         <>
-            <div className='htable'>
+            <div className='h-table'>
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
@@ -28,11 +28,11 @@ const PlayerTable = () => {
                                     className={
                                         _onGame?
                                             player.butting?
-                                                'butting':
+                                                'h-butting':
                                                 player.id===state.id?
                                                     state.point>0?
-                                                        'winner':
-                                                        'loser'
+                                                        'h-positive':
+                                                        'h-negative'
                                                     :''
                                             :''
                                     }

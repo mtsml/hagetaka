@@ -10,13 +10,13 @@ const Header = () => {
         <header>
             {
                 onGame(state.proc)&&
-                    <div className='hrow'>
-                        <span className='message'>ターン{state.cnt}</span>
+                    <div className='h-row'>
+                        <span className='h-message'>ターン{state.cnt}</span>
                         <Point point={state.point}/>
                     </div>
             }
-            <div className='hrow'>
-                <h1 className='message'>{state.message}</h1>
+            <div className='h-row'>
+                <h1 className='h-message'>{state.message}</h1>
             </div>
         </header>
     )    

@@ -15,20 +15,20 @@ const ResultModal = () => {
     const rank = getRank(state)
 
     return (
-        <MDBModal isOpen={show} className='hmodal'>
-            <MDBModalHeader className='hrow'>
-                <h1 className='message'>{getResultMessage(state)}</h1>
+        <MDBModal isOpen={show} className='h-modal'>
+            <MDBModalHeader className='h-row'>
+                <h1 className='h-message'>{getResultMessage(state)}</h1>
             </MDBModalHeader>
 
-            <MDBModalBody className='hrow'>
+            <MDBModalBody className='h-row'>
                 {rank<4?
-                    <MDBIcon size='5x' icon='trophy' className={`rank${rank}`} />:
+                    <MDBIcon size='5x' icon='trophy' className={`h-rank${rank}`} />:
                     <MDBIcon size='5x' icon='tired' />
                 }
                 <br />
             </MDBModalBody>
 
-            <MDBModalFooter className='hrow'>
+            <MDBModalFooter className='h-row'>
                 <Button onClick={toggleModal}>閉じる</Button>
             </MDBModalFooter>
         </MDBModal>

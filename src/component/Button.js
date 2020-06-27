@@ -6,7 +6,7 @@ const Button = (props) => {
     return (
         <MDBBtn 
             disabled={props.disabled}
-            className='mt-2 hbtn'
+            className='mt-2 h-btn'
             color={props.color||THEME_COLOR}
             onClick={props.onClick}
         >

@@ -48,7 +48,7 @@ const Footer = () => {
 
     return (
         <footer className='fixed-bottom mb-2'>
-            <div className='hrow'>
+            <div className='h-row'>
                 {
                     state.proc===PROC.WAIT?
                         <>

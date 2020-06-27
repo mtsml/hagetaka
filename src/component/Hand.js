@@ -5,7 +5,7 @@ import { THEME_COLOR } from '../util/const'
 const Hand = (props) => {
     return (
         <Button 
-            className='hand waves-effect'
+            className='h-hand waves-effect'
             color={THEME_COLOR} 
             onClick={props.onClick}
             disabled={props.disabled||false}

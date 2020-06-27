@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact'
 import ShareButtons from './ShareButtons'
 import { Store } from '../store/index'
-import { onGame, getResultMessage, getRank } from '../util/util'
+import { onGame, getResultMessage } from '../util/util'
 import { PROC, URL, MSG_SHARE } from '../util/const'
 
 const PlayerTable = () => {
@@ -11,14 +11,14 @@ const PlayerTable = () => {
 
     return (
         <>
-            <div className='htable'>
+            <div className='h-table'>
                 <MDBTable>
                     <MDBTableHead>
                         <tr>
-                            <th>rank</th>
-                            <th>name</th>
-                            <th>point</th>
-                            <th>hand</th>
+                            <th>順位</th>
+                            <th>名前</th>
+                            <th>ポイント</th>
+                            <th>手札</th>
                         </tr>
                     </MDBTableHead>
                     <MDBTableBody>
@@ -28,11 +28,11 @@ const PlayerTable = () => {
                                     className={
                                         _onGame?
                                             player.butting?
-                                                'butting':
+                                                'h-butting':
                                                 player.id===state.id?
                                                     state.point>0?
-                                                        'winner':
-                                                        'loser'
+                                                        'h-positive':
+                                                        'h-negative'
                                                     :''
                                             :''
                                     }
@@ -48,7 +48,7 @@ const PlayerTable = () => {
                 </MDBTable>
             </div>
             {state.proc===PROC.RESULT&&
-                <ShareButtons message={MSG_SHARE} url={URL} title={getResultMessage(state.point, getRank(state))}/>
+                <ShareButtons message={MSG_SHARE} url={URL} title={getResultMessage(state)}/>
             }
         </>
     )

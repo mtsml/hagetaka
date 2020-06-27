@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from 'react'
 import io from "socket.io-client";
 import { getHost } from '../util/util'
 import reducer from '../reducer/index'
-import { PROC } from '../util/const'
+import { PROC, MSG_DEFAULT } from '../util/const'
 
 const Store = createContext()
 const socket = io(getHost());
@@ -11,9 +11,10 @@ const initialState = {
     name: null,
     room: null,
     wait: false,
-    message: 'Welcome to Hagetaka!',
+    message: MSG_DEFAULT,
     cnt: 0,
     point: 0,
+    carryPoint: 0,
     players: [],
     proc: PROC.LOGIN,
     hand: 0,

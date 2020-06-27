@@ -3,8 +3,8 @@ import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, Lin
 
 const ShareButtons = (props) => {
     return (
-        <div className='share'>
-            {props.message&&<h1 className='message'>{props.message}</h1>}
+        <div className='h-share'>
+            {props.message&&<h1 className='h-message'>{props.message}</h1>}
             <FacebookShareButton url={props.url} title={props.title}>
                 <FacebookIcon size='32' round={true}/>
             </FacebookShareButton>

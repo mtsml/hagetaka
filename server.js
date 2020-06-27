@@ -23,6 +23,7 @@ const createRoom = (room) => [
         onGame: false,
         cnt: 0,
         point: 0,
+        carryPoint: null,
         points: []
     }
 ]
@@ -83,7 +84,7 @@ const judge = (room) => {
     const handsNoButting = rooms[room].players.filter(player => player.butting === false)
     if (handsNoButting.length === 0) {
         console.log('CARRY_OVER')
-        message = '全員バッティングのためキャリーオーバーです'
+        message = 'キャリーオーバー'
     } else {
         const hand = handsNoButting.reduce((a,b) => {
             if (rooms[room].point > 0) {
@@ -96,7 +97,8 @@ const judge = (room) => {
             if (player.id === hand.id) {
                 message = `${player.name}さんの得点です！`
                 id = player.id
-                return {...player, point: player.point + rooms[room].point}
+                const totalPoint = rooms[room].carryPoint===null?rooms[room].point:rooms[room].point+rooms[room].carryPoint
+                return {...player, point: player.point + totalPoint}
             } else {
                 return {...player}
             }
@@ -131,9 +133,14 @@ const judge = (room) => {
         }
     })
 
-    rooms[room].cnt < maxTurn && handsNoButting.length===0 ? 
-        rooms[room].point += rooms[room].points.pop():
+    if (rooms[room].cnt < maxTurn) {
+        if (handsNoButting.length === 0) {
+            rooms[room].carryPoint += rooms[room].point
+        } else {
+            rooms[room].carryPoint = null
+        }
         rooms[room].point = rooms[room].points.pop()
+    }
 
     return {message, id}
 }
@@ -184,7 +191,7 @@ io.on('connection', (socket) => {
             room.cnt++
             room.point = room.points.pop()
             const message =`${room.point > 0 ? '大きい数字で得点' : '小さい数字で得点'}`
-            io.to(data.room).emit('NEXT_TURN', {cnt: room.cnt, message, point: room.point})
+            io.to(data.room).emit('NEXT_TURN', {cnt: room.cnt, message, point: room.point, carryPoint: room.carryPoint})
         }
     })
 
@@ -213,11 +220,12 @@ io.on('connection', (socket) => {
     socket.on('NEXT_TURN', (data) => {
         console.log('NEXT_TURN')
         const {room} = data
-        const message = rooms[room].point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'
+        const message = rooms[room].point > 0 ? '大きい数字で得点' : '小さい数字で得点'
         io.to(socket.id).emit('NEXT_TURN', {
             cnt: rooms[room].cnt, 
             message, 
-            point: rooms[room].point
+            point: rooms[room].point,
+            carryPoint: rooms[room].carryPoint
         })
     })
 

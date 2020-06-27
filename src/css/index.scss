@@ -48,30 +48,26 @@
     align-items: center;
     justify-content: center;
     min-height: 90vh;
-}
-
-.hlogin h1 {
-    margin: 16px 0px;
-}
-
-.hlogin img {
-    width: 100px;
-    height: 100px;
-    border-radius: 40%;
-}    
-
-.hlogin .md-form {
-    margin: 0; /* MDBInputを使うと付与される.md-formを打ち消す */
+    h1 {
+        margin: 16px 0px;
+    }
+    img {
+        width: 100px;
+        height: 100px;
+        border-radius: 40%;
+    }    
+    .md-form {
+        margin: 0; /* MDBInputを使うと付与される.md-formを打ち消す */
+    }
 }
 
 
 /* ヘッダー */
 header {
     margin: 10px;
-}
-
-header .hrow {
-    align-items: baseline;
+    .hrow {
+        align-items: baseline;
+    }
 }
 
 .point {
@@ -91,31 +87,31 @@ footer .hrow > * {
 
 
 /* テーブル */
-.htable *{
+.htable * {
     max-width: 400px;
     margin: 0 auto;
     font-weight: normal;
     text-align: center;
+    th {
+        font-size: 18px;
+    }
+    td {
+        font-size: 16px;
+    }
 }
 
-.htable th {
-    font-size: 18px;
-}
-
-.htable td {
-    font-size: 16px;
+@mixin td($color) {
+    font-size: 120%;
+    font-weight: bold;
+    background-color: $color;
 }
 
 .winner td{
-    font-size: 120%;
-    font-weight: bold;
-    background-color: rgba(3, 169, 244, 0.3);
+    @include td(rgba(3, 169, 244, 0.3));
 }
 
 .loser td{
-    font-size: 120%;
-    font-weight: bold;
-    background-color: rgba(233, 30, 99, 0.3);
+    @include td(rgba(233, 30, 99, 0.3));
 }
 
 .butting {
@@ -137,22 +133,22 @@ footer .hrow > * {
     max-width: 150px;
 }
 
-.rank1 {
-    background: linear-gradient(to top left, #ffc107, #ffecb3);
+@mixin rank($color1, $color2) {
+    background: linear-gradient(to top left, $color1, $color2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.rank1 {
+    @include rank(#ffc107, #ffecb3)
 }
 
 .rank2 {
-    background: linear-gradient(to top left, #9e9e9e, #f5f5f5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    @include rank(#9e9e9e, #f5f5f5);
 }
 
 .rank3 {
-    background: linear-gradient(to top left, #795548, #bcaaa4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    @include rank(#795548, #bcaaa4);
 }
 
 
@@ -160,8 +156,7 @@ footer .hrow > * {
 .share {
     margin-top: 20px;
     text-align: center;
-}
-
-.share > * {
-    margin: 5px;
+    * {
+        margin: 5px;
+    }
 }

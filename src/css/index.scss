@@ -42,6 +42,7 @@
 
 /* ログイン画面 */
 .h-login {
+    margin: 10px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -79,24 +80,30 @@ header {
 
 
 /* フッター */
-footer .h-row > * {
-    flex: auto;
-    width: 50%;
-    max-width: 200px;
+footer {
+    margin: 10px;
+    .h-row > * {
+        flex: auto;
+        width: 50%;
+        max-width: 200px;
+    }
 }
 
 
 /* テーブル */
-.h-table * {
-    max-width: 400px;
-    margin: 0 auto;
-    font-weight: normal;
-    text-align: center;
-    th {
-        font-size: 18px;
-    }
-    td {
-        font-size: 16px;
+.h-table {
+    margin: 10px;
+    * {
+        max-width: 400px;
+        margin: 0 auto;
+        font-weight: normal;
+        text-align: center;
+        th {
+            font-size: 18px;
+        }
+        td {
+            font-size: 16px;
+        }
     }
 }
 
@@ -121,6 +128,10 @@ footer .h-row > * {
 
 /* 手札 */
 .h-handbox {
+    margin: 10px;
+}
+
+.h-handrow {
     display: grid;
     max-width: 400px;
     margin: 0 auto;

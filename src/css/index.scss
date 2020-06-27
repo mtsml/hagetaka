@@ -74,11 +74,18 @@ header {
     }
 }
 
-.h-point {
-    margin-left: 5px;
+@mixin point($size) {
     margin-right: 5px;
-    font-size: 35px;
+    font-size: $size;
     font-weight: bold;
+}
+
+.h-point {
+    @include point(35px);
+    margin-left: 5px;
+}
+.h-carry-point {
+    @include point(24px);
 }
 
 

@@ -23,6 +23,7 @@ const reducer = (state, action) => {
                 ...state,
                 proc: PROC.INPUT,
                 point: action.data.point,
+                carryPoint: action.data.carryPoint,
                 cnt: action.data.cnt,
                 message: action.data.message,
                 wait: false

@@ -12,7 +12,7 @@ const Header = () => {
                 onGame(state.proc)&&
                     <div className='h-row'>
                         <span className='h-message'>ターン{state.cnt}</span>
-                        <Point point={state.point}/>
+                         <Point point={state.point} carryPoint={state.carryPoint}/>
                     </div>
             }
             <div className='h-row'>

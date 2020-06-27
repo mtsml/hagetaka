@@ -14,6 +14,7 @@ const initialState = {
     message: MSG_DEFAULT,
     cnt: 0,
     point: 0,
+    carryPoint: 0,
     players: [],
     proc: PROC.LOGIN,
     hand: 0,

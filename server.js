@@ -83,7 +83,7 @@ const judge = (room) => {
     const handsNoButting = rooms[room].players.filter(player => player.butting === false)
     if (handsNoButting.length === 0) {
         console.log('CARRY_OVER')
-        message = '全員バッティングのためキャリーオーバーです'
+        message = 'キャリーオーバー'
     } else {
         const hand = handsNoButting.reduce((a,b) => {
             if (rooms[room].point > 0) {
@@ -213,7 +213,7 @@ io.on('connection', (socket) => {
     socket.on('NEXT_TURN', (data) => {
         console.log('NEXT_TURN')
         const {room} = data
-        const message = rooms[room].point > 0 ? '大きい数字で獲得' : '小さい数字で獲得'
+        const message = rooms[room].point > 0 ? '大きい数字で得点' : '小さい数字で得点'
         io.to(socket.id).emit('NEXT_TURN', {
             cnt: rooms[room].cnt, 
             message, 

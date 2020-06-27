@@ -17,7 +17,7 @@ const ResultModal = () => {
     return (
         <MDBModal isOpen={show} className='hmodal'>
             <MDBModalHeader className='hrow'>
-                <h1 className='message'>{getResultMessage(state.point, rank)}</h1>
+                <h1 className='message'>{getResultMessage(state)}</h1>
             </MDBModalHeader>
 
             <MDBModalBody className='hrow'>

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`スナップショット:  正常 1`] = `
+<div
+  className="md-form"
+>
+  
+  <input
+    aria-disabled={false}
+    className="form-control mt-2 h-input"
+    data-test="input"
+    disabled={false}
+    id="1"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onInput={[Function]}
+    type="text"
+    value=""
+  />
+  <label
+    aria-labelledby=""
+    className=""
+    data-error=""
+    data-success=""
+    htmlFor="1"
+    id=""
+    onClick={[Function]}
+  >
+    test
+  </label>
+</div>
+`;

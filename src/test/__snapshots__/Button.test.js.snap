@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`スナップショット:  正常 1`] = `
+<button
+  className="btn-red btn Ripple-parent mt-2 h-btn"
+  data-test="button"
+  disabled={false}
+  onClick={[Function]}
+  onMouseUp={[Function]}
+  onTouchStart={[Function]}
+  type="button"
+>
+  <div
+    className="Ripple "
+    data-test="waves"
+    style={
+      Object {
+        "height": "0px",
+        "left": "0px",
+        "top": "0px",
+        "width": "0px",
+      }
+    }
+  />
+</button>
+`;

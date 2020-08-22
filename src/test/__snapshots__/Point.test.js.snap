@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`スナップショット:  キャリーオーバーなし 1`] = `
+<span
+  className="h-point red-text"
+>
+  0
+</span>
+`;
+
+exports[`スナップショット:  プラス 1`] = `
+Array [
+  <span
+    className="h-point blue-text"
+  >
+    +
+    1
+  </span>,
+  <span
+    className="h-carry-point blue-text"
+  >
+    (
+    +
+    1
+    )
+  </span>,
+]
+`;
+
+exports[`スナップショット:  マイナス 1`] = `
+Array [
+  <span
+    className="h-point red-text"
+  >
+    -1
+  </span>,
+  <span
+    className="h-carry-point red-text"
+  >
+    (
+    -1
+    )
+  </span>,
+]
+`;

@@ -1,16 +1,15 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Hand from '../component/Hand';
+import Input from '../../component/Input';
 
 describe('スナップショット: ', () => {
     it('正常', () => {
         const props = {
-            disabled: false, 
-            outline: false,
-            onClick: function(){},
-            text: 'test'
+            id: '1',
+            label: 'test',
+            onChange: function(){}
         };
-        const tree = renderer.create(<Hand {...props}/>).toJSON()
+        const tree = renderer.create(<Input {...props}/>).toJSON()
         expect(tree).toMatchSnapshot()
     })
 })

@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Point from '../component/Point';
+import Point from '../../component/Point';
 
 describe('スナップショット: ', () => {
     it('プラス', () => {

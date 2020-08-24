@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Button from '../component/Button'
 import Input from '../component/Input'
 import ShareButtons from './ShareButtons'
@@ -8,7 +8,7 @@ import { MAX_VALUE_LENGTH, MSG_INVITATION, URL } from '../util/const'
 import logo from '../media/logo.png'
 
 const Login = () => {
-    const {state, dispatch} = useContext(Store)
+    const {state, dispatch} = React.useContext();
 
     const handleChange = (e) => {
         dispatch({

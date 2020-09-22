@@ -12,9 +12,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-server = app.listen(8090, () => {
-    console.log('server is running on port 8090')
-});
+const port = process.env.PORT || 5000;
+server = app.listen(port);
 
 // 同期にしないとまずい
 const createRoom = (room) => [

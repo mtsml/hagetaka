@@ -154,7 +154,9 @@ const randomSort = ([...array]) => {
     return array;
 }
 
-io = socket(server)
+io = socket(server, {
+    transports: ['websocket']
+})
 
 io.on('connection', (socket) => {
     socket.on('LOGIN', (data) => {

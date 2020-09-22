@@ -12,8 +12,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-const port = process.env.PORT || 5000;
-server = app.listen(port);
+const port = process.env.PORT || 8090
+server = app.listen(port, () => {
+    console.log(`server is running on port ${port}`)
+});
 
 // 同期にしないとまずい
 const createRoom = (room) => [

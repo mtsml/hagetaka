@@ -8,7 +8,7 @@ import { MAX_VALUE_LENGTH, MSG_INVITATION, URL } from '../util/const'
 import logo from '../media/logo.png'
 
 const Login = () => {
-    const {state, dispatch} = React.useContext();
+    const {state, dispatch} = React.useContext(Store);
 
     const handleChange = (e) => {
         dispatch({

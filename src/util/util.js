@@ -1,8 +1,10 @@
-import { LOCALHOST, HOST, PORT, PROC } from './const'
+import { LOCALHOST, PORT, PROC } from './const'
 
 export const getHost = () => {
     if (process.env.NODE_ENV === 'production') {
-        return HOST + ':' + PORT
+        // "undefined" means the URL will be computed from the `window.location` object
+        // https://socket.io/how-to/use-with-react
+        return undefined
     } else {
         return LOCALHOST + ':' + PORT
     }

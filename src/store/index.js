@@ -5,9 +5,7 @@ import reducer from '../reducer/index'
 import { PROC, MSG_DEFAULT } from '../util/const'
 
 const Store = createContext()
-const socket = io(getHost(), {
-    transports: ['websocket']
-})
+const socket = io(getHost())
 const initialState = {
     socket: socket,
     name: null,

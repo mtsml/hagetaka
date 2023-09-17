@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { MDBIcon } from 'mdbreact'
+import { MDBIcon } from 'mdb-react-ui-kit'
 import Button from '../component/Button'
 import { Store } from '../store/index'
 import { PROC, MSG_WAIT } from '../util/const'

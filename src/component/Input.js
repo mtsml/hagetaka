@@ -1,5 +1,5 @@
 import React from 'react'
-import { MDBInput } from 'mdbreact'
+import { MDBInput } from 'mdb-react-ui-kit'
 
 const Input = (props) => {
     return (

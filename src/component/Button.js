@@ -1,5 +1,5 @@
 import React from 'react'
-import { MDBBtn } from 'mdbreact'
+import { MDBBtn } from 'mdb-react-ui-kit'
 import { THEME_COLOR } from '../util/const'
 
 const Button = (props) => {

@@ -1,5 +1,4 @@
 export const PORT = 8090
-export const HOST = '18.181.41.155'
 export const LOCALHOST = 'localhost'
 export const PROC = {
     LOGIN: 10,
@@ -9,8 +8,8 @@ export const PROC = {
     RESULT: 50
 }
 export const MAX_VALUE_LENGTH = 10
-export const THEME_COLOR = 'mdb-color'
-export const URL = 'http://hoge.hagetaka.art/'
+export const THEME_COLOR = 'secondary'
+export const URL = 'https://hagetaka.onrender.com/'
 export const MSG_INVITATION = '一緒にHagetakaで遊ぼう！'
 export const MSG_SHARE = '結果をシェアしよう'
 export const MSG_WAIT = '待機中…'

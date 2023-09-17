@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon } from 'mdbreact'
+import { MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon } from 'mdb-react-ui-kit'
 import Button from '../component/Button'
 import { Store } from '../store/index'
 import { getResultMessage, getRank } from '../util/util'

@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const socket = require('socket.io')
+const { Server } = require('socket.io')
 
 const app = express();
 const maxTurn = 15
@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 const port = process.env.PORT || 8090
-server = app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`server is running on port ${port}`)
 });
 
@@ -154,9 +154,16 @@ const randomSort = ([...array]) => {
     return array;
 }
 
-io = socket(server, {
-    transports: ['websocket']
-})
+let io;
+if (process.env.NODE_ENV === "production") {
+    io = new Server(server)
+} else {
+    io = new Server(server, {
+        cors: {
+          origin: "http://localhost:3000"
+        }
+    })
+}
 
 io.on('connection', (socket) => {
     socket.on('LOGIN', (data) => {

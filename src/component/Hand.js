@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button } from 'mdbreact'
+import { MDBBtn } from 'mdb-react-ui-kit'
 import { THEME_COLOR } from '../util/const'
 
 const Hand = (props) => {
     return (
-        <Button 
+        <MDBBtn 
             className='h-hand waves-effect'
             color={THEME_COLOR} 
             onClick={props.onClick}
@@ -12,7 +12,7 @@ const Hand = (props) => {
             outline={props.outline||false}
         >
             {props.text}
-        </Button>
+        </MDBBtn>
     )
 }
 

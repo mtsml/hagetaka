@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact'
+import { MDBTable, MDBTableBody, MDBTableHead } from 'mdb-react-ui-kit'
 import ShareButtons from './ShareButtons'
 import { Store } from '../store/index'
 import { onGame, getResultMessage } from '../util/util'

@@ -1,21 +1,18 @@
 {
   "name": "hagetaka",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "bootstrap": "^4.5.0",
-    "mdbreact": "^4.27.0",
-    "node-sass": "^9.0.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "5.0.1",
-    "react-share": "^4.2.0",
-    "react-test-renderer": "^16.13.1",
-    "socket.io": "^2.5.0",
-    "socket.io-client": "^2.3.0"
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "express": "^4.18.2",
+    "mdb-react-ui-kit": "^6.3.0",
+    "node-sass": "^7.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
+    "react-share": "^4.4.1",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
   },
   "scripts": {
     "start": "node server.js",

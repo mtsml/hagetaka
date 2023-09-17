@@ -13,6 +13,7 @@
 .h-btn {
     @include width;
     border-radius: 15px;
+    margin: 3px;
 }
 
 .h-input {
@@ -110,7 +111,7 @@ footer {
         font-weight: normal;
         text-align: center;
         th {
-            font-size: 18px;
+            font-size: 16px;
         }
         td {
             font-size: 16px;

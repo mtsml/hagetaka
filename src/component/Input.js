@@ -5,7 +5,7 @@ const Input = (props) => {
     return (
         <MDBInput 
             id={props.id}
-            className='mt-2 h-input'
+            wrapperClass='mt-2 h-input'
             label={props.label}
             onChange={props.onChange}
             type='text'

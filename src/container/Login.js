@@ -26,7 +26,7 @@ const Login = () => {
                 type: 'SET_STATE',
                 data: {
                     key: 'message',
-                    value: '名前とルームを入力してください'
+                    value: '「なまえ」と「あいことば」を入力してください'
                 }
             })
         }
@@ -35,7 +35,7 @@ const Login = () => {
                 type: 'SET_STATE',
                 data: {
                     key: 'message',
-                    value: `名前とルームは${MAX_VALUE_LENGTH}以下で入力してください`
+                    value: `「なまえ」と「あいことば」はそれぞれ${MAX_VALUE_LENGTH}文字以下で入力してください`
                 }
             })
         } 
@@ -49,8 +49,8 @@ const Login = () => {
         <div className='h-login'>
             <img src={logo} alt="ロゴ"/>
             <h1 className='h-message'>{state.message}</h1>
-            <Input id='name' label="name" onChange={(e) => handleChange(e)} />
-            <Input id='room' label="room" onChange={(e) => handleChange(e)} />
+            <Input id='name' label="なまえ" onChange={(e) => handleChange(e)} />
+            <Input id='room' label="あいことば" onChange={(e) => handleChange(e)} />
             <Button onClick={login}>ログイン</Button>
             <ShareButtons url={URL} title={MSG_INVITATION}/>
         </div>

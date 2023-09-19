@@ -173,7 +173,7 @@ io.on('connection', (socket) => {
             createRoom(room)
         }
         if (rooms[room].players.some(player => player.name === name)) {
-            io.to(socket.id).emit('LOGIN_FAILED', {message: 'その名前はルーム内で既に使われています'})            
+            io.to(socket.id).emit('LOGIN_FAILED', {message: 'その「なまえ」は既に使われています'})            
         } else if (rooms[room].onGame) {
             io.to(socket.id).emit('LOGIN_FAILED', {message: 'ゲーム中です'})
         } else if (rooms[room].players.length < maxPlayers) {    

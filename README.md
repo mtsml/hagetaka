@@ -32,34 +32,18 @@ npm start
   - ポイントが-5から-1のとき：バッティングしていないプレイヤーの中で最も小さい数字を選択したプレイヤーがポイントを獲得する
  
 ### Screenshots
-|ログイン|
-|--|
-|<img src="https://github.com/mtsml/hagetaka/blob/images/login.png" width="300px">|
+|ログイン|待機|
+|--|--|
+|<img src="https://github.com/mtsml/hagetaka/blob/images/login.png" width="300px">|<img src="https://github.com/mtsml/hagetaka/blob/images/wait.png" width="300px">|
 
-|待機|
-|--|
-|<img src="https://github.com/mtsml/hagetaka/blob/images/wait.png" width="300px">|
+|プラスポイント|バッティング|
+|--|--|
+|<img src="https://github.com/mtsml/hagetaka/blob/images/play_pluspoint.png" width="300px">|<img src="https://github.com/mtsml/hagetaka/blob/images/play_conflict.png" width="300px">|
 
-|プラスポイント|
-|--|
-|<img src="https://github.com/mtsml/hagetaka/blob/images/play_pluspoint.png" width="300px">|
+|マイナスポイント|キャリーオーバー|
+|--|--|
+|<img src="https://github.com/mtsml/hagetaka/blob/images/play_minuspoint.png" width="300px">|<img src="https://github.com/mtsml/hagetaka/blob/images/play_carryover.png" width="300px">|
 
-|バッティング|
-|--|
-|<img src="https://github.com/mtsml/hagetaka/blob/images/play_conflict.png" width="300px">|
-
-|マイナスポイント|
-|--|
-|<img src="https://github.com/mtsml/hagetaka/blob/images/play_minuspoint.png" width="300px">|
-
-|キャリーオーバー|
-|--|
-|<img src="https://github.com/mtsml/hagetaka/blob/images/play_carryover.png" width="300px">|
-
-|2位|
-|--|
-|<img src="https://github.com/mtsml/hagetaka/blob/images/result_2nd.png" width="300px">|
-
-|4位|
-|--|
-|<img src="https://github.com/mtsml/hagetaka/blob/images/result_4th.png" width="300px">|
+|2位|4位|
+|--|--|
+|<img src="https://github.com/mtsml/hagetaka/blob/images/result_2nd.png" width="300px">|<img src="https://github.com/mtsml/hagetaka/blob/images/result_4th.png" width="300px">|
